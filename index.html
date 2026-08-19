@@ -22,7 +22,7 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <a href="/">
+                <a href="/en/">
                     <img src="/logo.png" alt="Panna League" width="40" height="40" class="logo-img">
                     <span class="logo-text">PANNA LEAGUE</span>
                 </a>
@@ -35,9 +35,9 @@
             <ul class="nav-menu" id="navMenu">
                 <li><a href="#about" class="nav-link">ABOUT</a></li>
                 <li><a href="#register" class="nav-link">REGISTER</a></li>
-                <li><a href="/club.html" class="nav-link">PARTNERS</a></li>
+                <li><a href="/en/club.html" class="nav-link">PARTNERS</a></li>
                 <li><a href="#contact" class="nav-link nav-primary">GET IN TOUCH</a></li>
-            </ul>
+            <li class="lang-switch"><a href="/" class="nav-link lang-link">🇫🇷 FR</a></li></ul>
         </div>
     </nav>
 
@@ -64,7 +64,7 @@
             </div>
             <div class="hero-cta">
                 <a href="#register" class="btn btn-primary btn-lg">REGISTER NOW</a>
-                <a href="/club.html" class="btn btn-outline btn-lg">BECOME A PARTNER</a>
+                <a href="/en/club.html" class="btn btn-outline btn-lg">BECOME A PARTNER</a>
             </div>
             <p class="hero-note">⚡ Limited places for pilot event #001 • Event date & location coming soon</p>
         </div>
@@ -156,7 +156,7 @@
                     <h3>Register Your Interest</h3>
                     <p class="form-note">No payment required at this stage. We're validating demand before confirming the event.</p>
                     
-                    <form class="player-form" id="xgawrovp" action="https://formspree.io/f/xgawrovp" method="POST">
+                    <form class="player-form" id="playerForm">
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="first-name">First Name *</label>
@@ -174,8 +174,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="phone">Phone (optional)</label>
-                            <input type="tel" id="phone" name="phone">
+                            <label for="phone">Phone / WhatsApp *</label>
+                            <input type="tel" id="phone" name="phone" placeholder="+41 79 123 45 67" required>
+                            <p class="field-hint">📱 We'll use WhatsApp to send you all the rendez-vous details (date, location, match time).</p>
                         </div>
 
                         <div class="form-row">
@@ -208,7 +209,7 @@
                         <div class="success-icon">✓</div>
                         <h3>YOU'RE IN!</h3>
                         <p>Thanks for registering. We'll contact you when Panna League #001 details are confirmed.</p>
-                        <a href="/" class="btn btn-secondary">BACK TO HOME</a>
+                        <a href="/en/" class="btn btn-secondary">BACK TO HOME</a>
                     </div>
                 </div>
             </div>
@@ -246,7 +247,7 @@
         <div class="container">
             <h2>ARE YOU A CLUB?</h2>
             <p>Football clubs, academies, and venues can partner with Panna League to bring this new format to your players.</p>
-            <a href="/club.html" class="btn btn-primary btn-lg">EXPLORE PARTNERSHIP</a>
+            <a href="/en/club.html" class="btn btn-primary btn-lg">EXPLORE PARTNERSHIP</a>
         </div>
     </section>
 
@@ -260,7 +261,7 @@
                     <span class="contact-icon">✉️</span>
                     <span>pannaleague@mycountryisgoodat.com</span>
                 </a>
-                <a href="/club.html" class="contact-link">
+                <a href="/en/club.html" class="contact-link">
                     <span class="contact-icon">🤝</span>
                     <span>Club Partnerships</span>
                 </a>
@@ -282,14 +283,14 @@
                     <ul>
                         <li><a href="#about">About</a></li>
                         <li><a href="#register">Register</a></li>
-                        <li><a href="/club.html">Clubs & Venues</a></li>
+                        <li><a href="/en/club.html">Clubs & Venues</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
                     <h4>CONNECT</h4>
                     <ul>
                         <li><a href="mailto:pannaleague@mycountryisgoodat.com">Contact</a></li>
-                        <li><a href="/privacy.html">Privacy Policy</a></li>
+                        <li><a href="/en/privacy.html">Privacy Policy</a></li>
                     </ul>
                 </div>
             </div>

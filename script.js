@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const playerForm = document.getElementById('playerForm');
 if (playerForm) {
-    playerForm.addEventListener('submit', (e) => {
+    playerForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
         // Validate form
@@ -54,24 +54,39 @@ if (playerForm) {
             return;
         }
 
-        // Collect form data
+        const submitBtn = playerForm.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn ? submitBtn.textContent : '';
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = '...';
+        }
+
         const formData = new FormData(playerForm);
         const data = Object.fromEntries(formData);
 
-        // Log to console (in production, this would be sent to a backend)
-        console.log('Player Registration Submitted:', data);
-        console.log('⚠️  Note: Form data not yet connected to database. See README for integration instructions.');
+        try {
+            const response = await fetch(playerForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            });
 
-        // Store in localStorage for demonstration
-        const registrations = JSON.parse(localStorage.getItem('pannaTempRegistrations') || '[]');
-        registrations.push({
-            ...data,
-            timestamp: new Date().toISOString()
-        });
-        localStorage.setItem('pannaTempRegistrations', JSON.stringify(registrations));
-
-        // Show success message
-        showPlayerSuccess(playerForm);
+            if (response.ok) {
+                console.log('Player Registration Submitted to Formspree:', data);
+                showPlayerSuccess(playerForm);
+            } else {
+                console.error('Formspree submission failed:', await response.text());
+                showFormError(playerForm, 'Something went wrong. Please try again or contact us directly.');
+            }
+        } catch (error) {
+            console.error('Network error submitting player form:', error);
+            showFormError(playerForm, 'Network error. Please check your connection and try again.');
+        } finally {
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalBtnText;
+            }
+        }
     });
 }
 
@@ -140,13 +155,25 @@ function showPlayerSuccess(form) {
     }
 }
 
+// Show a general (non-field-specific) form error banner
+function showFormError(form, message) {
+    let errorBanner = form.querySelector('.form-submit-error');
+    if (!errorBanner) {
+        errorBanner = document.createElement('p');
+        errorBanner.className = 'form-submit-error';
+        form.appendChild(errorBanner);
+    }
+    errorBanner.textContent = message;
+    errorBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
 // ========================================
 // 3. Partnership Form
 // ========================================
 
 const partnershipForm = document.getElementById('partnershipForm');
 if (partnershipForm) {
-    partnershipForm.addEventListener('submit', (e) => {
+    partnershipForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
         // Validate form
@@ -154,24 +181,39 @@ if (partnershipForm) {
             return;
         }
 
-        // Collect form data
+        const submitBtn = partnershipForm.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn ? submitBtn.textContent : '';
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = '...';
+        }
+
         const formData = new FormData(partnershipForm);
         const data = Object.fromEntries(formData);
 
-        // Log to console (in production, this would be sent to a backend)
-        console.log('Partnership Request Submitted:', data);
-        console.log('⚠️  Note: Form data not yet connected to database. See README for integration instructions.');
+        try {
+            const response = await fetch(partnershipForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            });
 
-        // Store in localStorage for demonstration
-        const partnerships = JSON.parse(localStorage.getItem('pannaTempPartnerships') || '[]');
-        partnerships.push({
-            ...data,
-            timestamp: new Date().toISOString()
-        });
-        localStorage.setItem('pannaTempPartnerships', JSON.stringify(partnerships));
-
-        // Show success message
-        showPartnershipSuccess(partnershipForm);
+            if (response.ok) {
+                console.log('Partnership Request Submitted to Formspree:', data);
+                showPartnershipSuccess(partnershipForm);
+            } else {
+                console.error('Formspree submission failed:', await response.text());
+                showFormError(partnershipForm, 'Something went wrong. Please try again or contact us directly.');
+            }
+        } catch (error) {
+            console.error('Network error submitting partnership form:', error);
+            showFormError(partnershipForm, 'Network error. Please check your connection and try again.');
+        } finally {
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalBtnText;
+            }
+        }
     });
 }
 
@@ -314,27 +356,12 @@ style.textContent = `
 document.head.appendChild(style);
 
 // ========================================
-// 7. Local Storage Demo
+// 7. Startup Log
 // ========================================
 
-// For development/testing: Display submitted data
 console.log('🚀 Panna League Website Loaded');
-console.log('📝 Form submissions are stored locally for now.');
-console.log('💾 To view submissions: console.log(localStorage.getItem("pannaTempRegistrations"))');
-console.log('💼 To view partnerships: console.log(localStorage.getItem("pannaTempPartnerships"))');
-
-// Function to retrieve local data (for debugging)
-window.getPannaRegistrations = () => {
-    const registrations = JSON.parse(localStorage.getItem('pannaTempRegistrations') || '[]');
-    console.table(registrations);
-    return registrations;
-};
-
-window.getPannaPartnerships = () => {
-    const partnerships = JSON.parse(localStorage.getItem('pannaTempPartnerships') || '[]');
-    console.table(partnerships);
-    return partnerships;
-};
+console.log('📝 Form submissions are sent live to Formspree (Player: xgawrovp, Partnership: xkjwkogy).');
+console.log('👉 View submissions at https://formspree.io');
 
 // ========================================
 // 8. Analytics Event Tracking Setup
@@ -411,28 +438,11 @@ if (window.performance && window.performance.timing) {
 // ========================================
 
 /*
-FORM INTEGRATION OPTIONS (See README for details):
+FORM BACKEND: Formspree (live)
 
-1. GOOGLE SHEETS (via Formspree or Apps Script)
-   - Easiest free option
-   - Integrate in 5 minutes
+Player registration form  → https://formspree.io/f/xgawrovp
+Club partnership form     → https://formspree.io/f/xkjwkogy
 
-2. AIRTABLE
-   - Powerful and visual
-   - Good for managing data
-
-3. SUPABASE
-   - Open-source Firebase alternative
-   - Real-time database
-
-4. FORMSPREE.IO
-   - Email-based form collection
-   - Free tier available
-
-5. FIREBASE
-   - Google's backend platform
-   - Built-in analytics
-
-To integrate any of these, replace the localStorage code above with
-an API call to your chosen backend service.
+Both forms POST via fetch() above and show a success/error state
+based on the response. View/export submissions at formspree.io.
 */

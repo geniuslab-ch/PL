@@ -1022,6 +1022,18 @@ a.btn {
     letter-spacing: normal;
 }
 
+.form-submit-error {
+    background-color: rgba(255, 68, 68, 0.08);
+    border: 1px solid rgba(255, 68, 68, 0.3);
+    color: #cc0000;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: center;
+    margin-top: var(--spacing-md);
+}
+
 /* Checkboxes */
 .form-checkbox {
     display: flex;

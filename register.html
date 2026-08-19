@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Inscris ton intérêt pour Panna League #001, un nouveau défi de football 1v1 qui arrive à Lausanne, en Suisse.">
+    <meta name="og:title" content="Panna League #001 | Inscription Football 1v1">
+    <meta name="og:description" content="Inscris ton intérêt pour Panna League #001, un nouveau défi de football 1v1 qui arrive à Lausanne, en Suisse.">
+    <meta name="og:image" content="/assets/og-image.jpg">
+    <meta name="theme-color" content="#FFD700">
+    <title>Panna League #001 | Inscription Football 1v1</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="160x160" href="/assets/logo-nav.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="/">
+                    <img src="/logo.png" alt="Panna League" width="40" height="40" class="logo-img">
+                    <span class="logo-text">PANNA LEAGUE</span>
+                </a>
+            </div>
+            <button class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="/#about" class="nav-link">CONCEPT</a></li>
+                <li><a href="/#register" class="nav-link">S'INSCRIRE</a></li>
+                <li><a href="/club.html" class="nav-link">PARTENAIRES</a></li>
+                <li><a href="/#contact" class="nav-link nav-primary">NOUS CONTACTER</a></li>
+                <li class="lang-switch"><a href="/en/register.html" class="nav-link lang-link">🇬🇧 EN</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero hero-register">
+        <div class="hero-content">
+            <h1 class="hero-title">METS TES SKILLS À L'ÉPREUVE.</h1>
+            <p class="hero-subtitle">Panna League #001 arrive bientôt. Inscris ton intérêt et fais partie des premiers joueurs invités.</p>
+        </div>
+        <div class="hero-accent accent-green"></div>
+    </section>
+
+    <!-- Event Card Section -->
+    <section class="event-card-section">
+        <div class="container">
+            <div class="event-card">
+                <div class="event-header">
+                    <h2>PANNA LEAGUE #001</h2>
+                </div>
+                <div class="event-details">
+                    <div class="event-detail-item">
+                        <span class="detail-label">FORMAT</span>
+                        <span class="detail-value">1v1</span>
+                    </div>
+                    <div class="event-detail-item">
+                        <span class="detail-label">LIEU</span>
+                        <span class="detail-value">Région lausannoise</span>
+                    </div>
+                    <div class="event-detail-item">
+                        <span class="detail-label">DATE</span>
+                        <span class="detail-value">Bientôt communiquée</span>
+                    </div>
+                    <div class="event-detail-item">
+                        <span class="detail-label">JOUEURS</span>
+                        <span class="detail-value">Places limitées</span>
+                    </div>
+                    <div class="event-detail-item">
+                        <span class="detail-label">TARIF</span>
+                        <span class="detail-value">À confirmer</span>
+                    </div>
+                </div>
+                <p class="event-note">
+                    <strong>L'inscription à ce stade est une expression d'intérêt.</strong> Aucun paiement n'est requis tant que les détails de l'événement ne sont pas confirmés et que tu n'es pas officiellement invité(e).
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Registration Form Section -->
+    <section class="registration-section">
+        <div class="container">
+            <div class="registration-wrapper">
+                <h2>INSCRIS TON INTÉRÊT</h2>
+                <p class="form-intro">Remplis le formulaire ci-dessous et nous te contacterons dès que Panna League #001 sera confirmé.</p>
+
+                <form class="player-form" id="playerForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="first-name">Prénom *</label>
+                            <input type="text" id="first-name" name="first_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="last-name">Nom *</label>
+                            <input type="text" id="last-name" name="last_name" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Téléphone / WhatsApp *</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+41 79 123 45 67" required>
+                        <p class="field-hint">📱 On utilisera WhatsApp pour t'envoyer tous les détails du rendez-vous (date, lieu, heure du match).</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="age-group">Tranche d'âge *</label>
+                        <select id="age-group" name="age_group" required>
+                            <option value="">Sélectionne ta tranche d'âge...</option>
+                            <option value="Under 16">Moins de 16 ans</option>
+                            <option value="16-17">16–17 ans</option>
+                            <option value="18-24">18–24 ans</option>
+                            <option value="25-34">25–34 ans</option>
+                            <option value="35+">35 ans et +</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="club">Club de football (optionnel)</label>
+                        <input type="text" id="club" name="club" placeholder="ex. FC Lausanne, Yverdon Sports, etc.">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="instagram">Nom d'utilisateur Instagram (optionnel)</label>
+                        <input type="text" id="instagram" name="instagram" placeholder="@tonpseudo">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hear-about">Comment as-tu entendu parler de Panna League ? *</label>
+                        <select id="hear-about" name="hear_about" required>
+                            <option value="">Sélectionner...</option>
+                            <option value="My football club">Mon club de football</option>
+                            <option value="Friend">Un ami</option>
+                            <option value="Instagram">Instagram</option>
+                            <option value="TikTok">TikTok</option>
+                            <option value="Google">Google</option>
+                            <option value="Other">Autre</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group form-checkbox">
+                        <input type="checkbox" id="contact-agree" name="contact_agree" required>
+                        <label for="contact-agree">J'accepte d'être contacté(e) au sujet des événements et actualités Panna League</label>
+                    </div>
+
+                    <p class="privacy-note">
+                        Nous prenons ta vie privée au sérieux. Lis notre <a href="/privacy.html">politique de confidentialité</a> pour savoir comment nous traitons tes informations.
+                    </p>
+
+                    <button type="submit" class="btn btn-primary btn-large">JE M'INSCRIS</button>
+                </form>
+
+                <div id="registrationSuccess" class="success-message" style="display: none;">
+                    <div class="success-content">
+                        <h3>C'EST NOTÉ.</h3>
+                        <p>Merci pour ton inscription. On te contacte dès que Panna League #001 est confirmé.</p>
+                        <div class="success-social">
+                            <p><strong>Reste connecté(e) pour les news :</strong></p>
+                            <p style="font-size: 0.9rem; color: #999;">Plus d'infos bientôt ! On restera en contact par email.</p>
+                        </div>
+                        <a href="/" class="btn btn-outline">RETOUR À L'ACCUEIL</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof Section -->
+    <section class="ready-to-represent">
+        <div class="container">
+            <h2 class="section-title">PRÊT À REPRÉSENTER TON CLUB ?</h2>
+            <p>Apporte tes skills. Apporte ton club. Apporte ton jeu.</p>
+            <p class="subtext">Inscris-toi ci-dessus et indique ton club de football. À mesure que la série se développe, nous introduirons classements et reconnaissance des clubs.</p>
+            <div class="represent-visual">
+                <div class="visual-placeholder placeholder-green">
+                    <div class="visual-text">1V1</div>
+                    <div class="visual-subtext">Championnat</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits for Players -->
+    <section class="player-benefits">
+        <div class="container">
+            <h2 class="section-title">POURQUOI S'INSCRIRE ?</h2>
+            <div class="benefits-simple">
+                <div class="benefit-simple-item">
+                    <div class="benefit-icon">⚽</div>
+                    <h4>Teste tes skills</h4>
+                    <p>Affronte les meilleurs joueurs 1v1 de Lausanne dans un format inédit.</p>
+                </div>
+                <div class="benefit-simple-item">
+                    <div class="benefit-icon">🏆</div>
+                    <h4>Prouve que tu es le meilleur</h4>
+                    <p>Remporte le championnat et fais-toi un nom dans la scène 1v1 compétitive.</p>
+                </div>
+                <div class="benefit-simple-item">
+                    <div class="benefit-icon">🎬</div>
+                    <h4>Sois mis en avant</h4>
+                    <p>Les meilleurs moments de l'événement sont filmés et partagés sur les réseaux sociaux. Montre tes skills à des milliers de personnes.</p>
+                </div>
+                <div class="benefit-simple-item">
+                    <div class="benefit-icon">🇨🇭</div>
+                    <h4>Fais partie de l'aventure</h4>
+                    <p>Aide à lancer un nouveau format de football qui va s'étendre dans toute la Suisse.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Also For Clubs -->
+    <section class="also-for-clubs">
+        <div class="container">
+            <h2>TU ES UN CLUB OU UN LIEU ?</h2>
+            <p>Si tu es intéressé(e) à devenir partenaire de Panna League ou à accueillir le premier événement, visite notre page partenariat.</p>
+            <a href="/club.html" class="btn btn-secondary">DEVENIR PARTENAIRE</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>PANNA LEAGUE</h4>
+                    <p>Lausanne, Suisse</p>
+                    <p>Championnat de Football 1v1</p>
+                </div>
+                <div class="footer-section">
+                    <h4>NAVIGUER</h4>
+                    <ul>
+                        <li><a href="/">Le Concept</a></li>
+                        <li><a href="/club.html">Clubs & Lieux</a></li>
+                        <li><a href="/register.html">S'inscrire</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>CONTACT</h4>
+                    <ul>
+                        <li><a href="mailto:pannaleague@mycountryisgoodat.com">Nous écrire</a></li>
+                        <li><a href="/privacy.html">Politique de confidentialité</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Panna League. Tous droits réservés. • <a href="https://panna-league.vercel.app">panna-league.vercel.app</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/script.js"></script>
+</body>
+</html>

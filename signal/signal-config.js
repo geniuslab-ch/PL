@@ -11,10 +11,12 @@ const SIGNAL_CONFIG = {
     // ----------------------------------------------------------
     // 1. QR CODE / BASE URL
     // ----------------------------------------------------------
-    // The base URL the QR code points to. No custom domain yet,
-    // so this is the Vercel URL. Update this the day you buy a
-    // domain — the QR generator (/signal/qr-generator.html) reads
-    // from here automatically.
+    // The base URL the QR code points to (French, the default page).
+    // No custom domain yet, so this is the Vercel URL. Update this the
+    // day you buy a domain — the QR generator (/signal/qr-generator.html)
+    // reads from here automatically. An English mirror exists at
+    // /en/signal — the language switcher on both pages links between
+    // them automatically and preserves any ?source= tag.
     SIGNAL_URL: "https://panna-league.vercel.app/signal",
 
 
@@ -42,12 +44,12 @@ const SIGNAL_CONFIG = {
     // ----------------------------------------------------------
     // 3. FORM ENDPOINTS (Formspree, or any POST endpoint)
     // ----------------------------------------------------------
-    // Create two NEW Formspree forms (separate from the main site's
-    // player-registration / partnership forms) so Signal applicants
-    // land in their own inbox/dashboard view. Paste the endpoints below.
+    // Both Signal forms now have their own dedicated Formspree endpoints,
+    // fully separate from the main site's forms and from each other:
+    // "Player-Signal" for applications, "Player-Signal-Nom" for nominations.
     FORM_ENDPOINTS: {
-        player: "https://formspree.io/f/REPLACE_WITH_PLAYER_FORM_ID",
-        nomination: "https://formspree.io/f/REPLACE_WITH_NOMINATION_FORM_ID",
+        player: "https://formspree.io/f/xeajnoay",
+        nomination: "https://formspree.io/f/xkjwygzo",
     },
 
 

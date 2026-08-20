@@ -15,6 +15,20 @@
     const SOURCE = urlParams.get('source') || 'direct';
 
     // ------------------------------------------------------------
+    // 0b. Language switch — auto-detects FR vs EN from the path,
+    //     preserves ?source= / ?debug= so a QR scan's tracking tag
+    //     isn't lost when switching language.
+    // ------------------------------------------------------------
+    (function setupLangSwitch() {
+        const link = document.getElementById('langSwitchLink');
+        if (!link) return;
+        const isEnglish = window.location.pathname.indexOf('/en/signal') === 0;
+        const targetPath = isEnglish ? '/signal' : '/en/signal';
+        link.href = targetPath + window.location.search;
+        link.textContent = isEnglish ? 'FR' : 'EN';
+    })();
+
+    // ------------------------------------------------------------
     // 1. Analytics helper — fires through gtag/fbq if present,
     //    always logs to console for now. Never throws.
     // ------------------------------------------------------------
@@ -266,10 +280,30 @@
             const url = cfg.SOCIAL[order[i]];
             if (url && url !== '#') {
                 window.open(url, '_blank', 'noopener');
-                return;
+                return true;
             }
         }
-        // No social configured yet — no-op (silently), nothing to open
+        // No social account configured yet — give visible feedback instead
+        // of silently doing nothing (this was a real bug: tapping produced
+        // zero response on the final screen, which has nothing else to
+        // advance to).
+        showToast('Coming soon.');
+        return false;
+    }
+
+    let toastTimeout = null;
+    function showToast(message) {
+        let toast = document.getElementById('signalToast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'signalToast';
+            toast.className = 'signal-toast';
+            document.body.appendChild(toast);
+        }
+        toast.textContent = message;
+        toast.classList.add('visible');
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => toast.classList.remove('visible'), 1800);
     }
 
     function openSocialAndAdvance(nextId) {

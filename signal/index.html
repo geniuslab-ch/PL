@@ -1,22 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
     <meta name="robots" content="noindex, nofollow">
     <meta name="theme-color" content="#0a0a0a">
-    <title>THE SIGNAL</title>
+    <title>LE SIGNAL</title>
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/signal/signal.css">
     <!--
-        THE SIGNAL — Panna League guerrilla campaign microsite.
+        THE SIGNAL — Panna League guerrilla campaign microsite (French, default).
+        English mirror lives at /en/signal/ — shares this same signal.css / signal.js / signal-config.js.
         This page is intentionally NOT linked from the main site.
         It is only meant to be discovered via a QR code (see /signal/qr-generator.html).
         Config (accent color, social links, form endpoints, video path, share text)
         lives in ONE place: /signal/signal-config.js — edit that file only.
+    -->
+
+    <!--
+        GOOGLE ANALYTICS 4 (for "which QR location got scanned the most")
+        ------------------------------------------------------------------
+        Uncomment below and paste your Measurement ID (looks like G-XXXXXXXXXX)
+        from analytics.google.com. Once it's live, every screen view and
+        button tap on this page automatically reports through it — signal.js
+        already calls gtag() with a "source" parameter set from the QR
+        code's ?source=lausanne01 tag, no extra code needed.
+
+        To actually SEE "which location was scanned most" afterwards:
+        1. In GA4: Admin → Custom definitions → Create custom dimension
+           → Dimension name "Source" → Event parameter "source" → Save.
+           (One-time setup — GA4 won't show a parameter in reports until
+           it's registered as a dimension, even though it's already
+           being recorded from the moment this script goes live.)
+        2. Reports → Engagement → Events → click "signal_view" → add
+           "Source" as a secondary dimension. That table is your answer:
+           one row per installation, sorted by scan count.
+    -->
+    <!--
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
     -->
 </head>
 <body>
@@ -31,18 +61,23 @@
     <!-- Progress dots (subtle, bottom, non-intrusive) -->
     <div class="signal-progress" id="signalProgress" aria-hidden="true"></div>
 
+    <!-- Language switch (minimal, corner, doesn't break the isolated campaign feel) -->
+    <div class="signal-lang-switch">
+        <a href="#" id="langSwitchLink">EN</a>
+    </div>
+
     <main id="signalRoot">
 
         <!-- ============ SCREEN 0 — DISCOVERY ============ -->
         <section class="signal-screen" id="screen-discovery" data-tap-advance="cta-discovery">
             <div class="signal-inner">
-                <p class="reveal-line glitch-text" data-delay="200">YOU FOUND THE SIGNAL.</p>
+                <p class="reveal-line glitch-text" data-delay="200">TU AS TROUVÉ LE SIGNAL.</p>
                 <div class="signal-pulse reveal-line" data-delay="900" aria-hidden="true">
                     <span class="pulse-dot"></span>
                 </div>
                 <p class="reveal-line signal-location" data-delay="1700">LAUSANNE</p>
                 <div class="signal-cta-group reveal-cta">
-                    <button class="signal-btn signal-btn-primary" id="cta-discovery" type="button">ENTER</button>
+                    <button class="signal-btn signal-btn-primary" id="cta-discovery" type="button">ENTRER</button>
                 </div>
             </div>
         </section>
@@ -51,11 +86,11 @@
         <section class="signal-screen" id="screen-revelation" data-tap-advance="cta-revelation">
             <div class="signal-inner">
                 <p class="reveal-line signal-brand" data-delay="150">PANNA LEAGUE</p>
-                <p class="reveal-line signal-headline" data-delay="700">32 PLAYERS.<br>1 WINNER.</p>
-                <p class="reveal-line signal-emphasis" data-delay="1500">NO CHAMPION YET.</p>
-                <p class="reveal-line signal-body" data-delay="2300">WE'RE LOOKING FOR THE FIRST ONE.</p>
+                <p class="reveal-line signal-headline" data-delay="700">32 JOUEURS.<br>1 VAINQUEUR.</p>
+                <p class="reveal-line signal-emphasis" data-delay="1500">PAS ENCORE DE CHAMPION.</p>
+                <p class="reveal-line signal-body" data-delay="2300">ON CHERCHE LE TOUT PREMIER.</p>
                 <div class="signal-cta-group reveal-cta">
-                    <button class="signal-btn signal-btn-primary" id="cta-revelation" type="button">CONTINUE</button>
+                    <button class="signal-btn signal-btn-primary" id="cta-revelation" type="button">CONTINUER</button>
                 </div>
             </div>
         </section>
@@ -63,11 +98,11 @@
         <!-- ============ SCREEN 2 — THE CHALLENGE ============ -->
         <section class="signal-screen" id="screen-challenge">
             <div class="signal-inner">
-                <p class="reveal-line signal-headline" data-delay="150">BECOME<br>THE FIRST.</p>
-                <p class="reveal-line signal-body" data-delay="900">The first Panna League champion.<br>Your name could be the first one written into the history of this competition.</p>
+                <p class="reveal-line signal-headline" data-delay="150">DEVIENS<br>LE PREMIER.</p>
+                <p class="reveal-line signal-body" data-delay="900">Le tout premier champion Panna League.<br>Ton nom pourrait être le premier écrit dans l'histoire de cette compétition.</p>
                 <div class="signal-cta-group reveal-cta signal-cta-stack">
-                    <button class="signal-btn signal-btn-primary signal-btn-large" id="cta-i-want-in" type="button">I WANT IN</button>
-                    <button class="signal-btn signal-btn-ghost" id="cta-i-know-someone" type="button">I KNOW SOMEONE</button>
+                    <button class="signal-btn signal-btn-primary signal-btn-large" id="cta-i-want-in" type="button">JE VEUX EN ÊTRE</button>
+                    <button class="signal-btn signal-btn-ghost" id="cta-i-know-someone" type="button">JE CONNAIS QUELQU'UN</button>
                 </div>
             </div>
         </section>
@@ -75,7 +110,7 @@
         <!-- ============ SCREEN 2a — PLAYER APPLICATION FORM ============ -->
         <section class="signal-screen signal-screen-form" id="screen-player-form">
             <div class="signal-inner signal-inner-form">
-                <p class="reveal-line signal-headline-sm" data-delay="100">SUBMIT YOUR<br>CHALLENGE.</p>
+                <p class="reveal-line signal-headline-sm" data-delay="100">RELÈVE<br>LE DÉFI.</p>
                 <form class="signal-form reveal-line" data-delay="400" id="playerForm">
                     <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
                     <input type="hidden" name="source" id="playerFormSource">
@@ -83,54 +118,54 @@
 
                     <div class="signal-field-row">
                         <div class="signal-field">
-                            <label for="p-first-name">First name *</label>
+                            <label for="p-first-name">Prénom *</label>
                             <input type="text" id="p-first-name" name="first_name" required>
                         </div>
                         <div class="signal-field">
-                            <label for="p-last-name">Last name *</label>
+                            <label for="p-last-name">Nom *</label>
                             <input type="text" id="p-last-name" name="last_name" required>
                         </div>
                     </div>
 
                     <div class="signal-field">
-                        <label for="p-social">Instagram / TikTok username *</label>
-                        <input type="text" id="p-social" name="social_handle" placeholder="@yourname" required>
+                        <label for="p-social">Instagram / TikTok *</label>
+                        <input type="text" id="p-social" name="social_handle" placeholder="@tonpseudo" required>
                     </div>
 
                     <div class="signal-field">
-                        <label for="p-contact">Phone or email *</label>
+                        <label for="p-contact">Téléphone ou email *</label>
                         <input type="text" id="p-contact" name="contact" required>
                     </div>
 
                     <div class="signal-field-row">
                         <div class="signal-field">
-                            <label for="p-city">City *</label>
+                            <label for="p-city">Ville *</label>
                             <input type="text" id="p-city" name="city" required>
                         </div>
                         <div class="signal-field">
-                            <label for="p-club">Football club (optional)</label>
+                            <label for="p-club">Club de football (optionnel)</label>
                             <input type="text" id="p-club" name="club">
                         </div>
                     </div>
 
                     <div class="signal-field">
-                        <label for="p-position">Position (optional)</label>
-                        <input type="text" id="p-position" name="position" placeholder="e.g. striker, winger, no fixed position">
+                        <label for="p-position">Poste (optionnel)</label>
+                        <input type="text" id="p-position" name="position" placeholder="ex. attaquant, ailier, pas de poste fixe">
                     </div>
 
                     <div class="signal-field">
-                        <label for="p-why">Why should you be one of the 32? *</label>
+                        <label for="p-why">Pourquoi devrais-tu être l'un des 32 ? *</label>
                         <textarea id="p-why" name="why_you" rows="3" required></textarea>
                     </div>
 
                     <div class="signal-field">
-                        <label for="p-video">Upload a short panna/football video (optional)</label>
+                        <label for="p-video">Envoie une courte vidéo panna/football (optionnel)</label>
                         <input type="file" id="p-video" name="video" accept="video/*">
-                        <p class="signal-field-hint">Max ~15 seconds. Show us a move.</p>
+                        <p class="signal-field-hint">15 secondes max. Montre-nous un move.</p>
                     </div>
 
-                    <button type="submit" class="signal-btn signal-btn-primary signal-btn-block">SUBMIT MY CHALLENGE</button>
-                    <button type="button" class="signal-btn signal-btn-text" data-back-to="screen-challenge">← back</button>
+                    <button type="submit" class="signal-btn signal-btn-primary signal-btn-block">ENVOYER MON DÉFI</button>
+                    <button type="button" class="signal-btn signal-btn-text" data-back-to="screen-challenge">← retour</button>
                 </form>
             </div>
         </section>
@@ -138,10 +173,10 @@
         <!-- ============ SCREEN 2a-confirm — PLAYER CONFIRMATION ============ -->
         <section class="signal-screen" id="screen-player-confirm" data-tap-advance="cta-player-confirm">
             <div class="signal-inner">
-                <p class="reveal-line signal-headline-sm" data-delay="150">APPLICATION<br>RECEIVED.</p>
-                <p class="reveal-line signal-body" data-delay="900">You are now on the radar.<br>The 32 will be selected.<br>Stay ready.</p>
+                <p class="reveal-line signal-headline-sm" data-delay="150">CANDIDATURE<br>REÇUE.</p>
+                <p class="reveal-line signal-body" data-delay="900">Tu es maintenant sur le radar.<br>Les 32 seront sélectionnés.<br>Reste prêt.</p>
                 <div class="signal-cta-group reveal-cta">
-                    <button class="signal-btn signal-btn-primary" id="cta-player-confirm" type="button">FOLLOW THE SIGNAL</button>
+                    <button class="signal-btn signal-btn-primary" id="cta-player-confirm" type="button">SUIVRE LE SIGNAL</button>
                 </div>
             </div>
         </section>
@@ -149,45 +184,45 @@
         <!-- ============ SCREEN 2b — NOMINATION FORM ============ -->
         <section class="signal-screen signal-screen-form" id="screen-nomination-form">
             <div class="signal-inner signal-inner-form">
-                <p class="reveal-line signal-headline-sm" data-delay="100">KNOW SOMEONE<br>WHO SHOULD BE HERE?</p>
-                <p class="reveal-line signal-body-sm" data-delay="400">You don't have to be the player.<br>You might know the one who should be.</p>
+                <p class="reveal-line signal-headline-sm" data-delay="100">TU CONNAIS QUELQU'UN<br>QUI DEVRAIT ÊTRE ICI ?</p>
+                <p class="reveal-line signal-body-sm" data-delay="400">Tu n'as pas besoin d'être le joueur.<br>Tu connais peut-être celui qui devrait l'être.</p>
                 <form class="signal-form reveal-line" data-delay="700" id="nominationForm">
                     <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
                     <input type="hidden" name="source" id="nominationFormSource">
                     <input type="hidden" name="_subject" value="New Panna League Signal nomination">
 
                     <div class="signal-field">
-                        <label for="n-your-name">Your name *</label>
+                        <label for="n-your-name">Ton nom *</label>
                         <input type="text" id="n-your-name" name="your_name" required>
                     </div>
 
                     <div class="signal-field">
-                        <label for="n-your-contact">Your email or phone *</label>
+                        <label for="n-your-contact">Ton email ou téléphone *</label>
                         <input type="text" id="n-your-contact" name="your_contact" required>
                     </div>
 
                     <div class="signal-field">
-                        <label for="n-player-name">Player's name *</label>
+                        <label for="n-player-name">Nom du joueur *</label>
                         <input type="text" id="n-player-name" name="player_name" required>
                     </div>
 
                     <div class="signal-field">
-                        <label for="n-player-social">Player's Instagram / TikTok *</label>
-                        <input type="text" id="n-player-social" name="player_social" placeholder="@theirname" required>
+                        <label for="n-player-social">Instagram / TikTok du joueur *</label>
+                        <input type="text" id="n-player-social" name="player_social" placeholder="@sonpseudo" required>
                     </div>
 
                     <div class="signal-field">
-                        <label for="n-player-city">Player's city *</label>
+                        <label for="n-player-city">Ville du joueur *</label>
                         <input type="text" id="n-player-city" name="player_city" required>
                     </div>
 
                     <div class="signal-field">
-                        <label for="n-why">Why should they be selected? *</label>
+                        <label for="n-why">Pourquoi devrait-il/elle être sélectionné(e) ? *</label>
                         <textarea id="n-why" name="why_them" rows="3" required></textarea>
                     </div>
 
-                    <button type="submit" class="signal-btn signal-btn-primary signal-btn-block">NOMINATE THEM</button>
-                    <button type="button" class="signal-btn signal-btn-text" data-back-to="screen-challenge">← back</button>
+                    <button type="submit" class="signal-btn signal-btn-primary signal-btn-block">LE NOMINER</button>
+                    <button type="button" class="signal-btn signal-btn-text" data-back-to="screen-challenge">← retour</button>
                 </form>
             </div>
         </section>
@@ -195,10 +230,10 @@
         <!-- ============ SCREEN 2b-confirm — NOMINATION CONFIRMATION ============ -->
         <section class="signal-screen" id="screen-nomination-confirm" data-tap-advance="cta-nomination-confirm">
             <div class="signal-inner">
-                <p class="reveal-line signal-headline-sm" data-delay="150">NOMINATION<br>RECEIVED.</p>
-                <p class="reveal-line signal-body" data-delay="900">We'll find them.</p>
+                <p class="reveal-line signal-headline-sm" data-delay="150">NOMINATION<br>REÇUE.</p>
+                <p class="reveal-line signal-body" data-delay="900">On va le/la trouver.</p>
                 <div class="signal-cta-group reveal-cta">
-                    <button class="signal-btn signal-btn-primary" id="cta-nomination-confirm" type="button">BACK TO THE SIGNAL</button>
+                    <button class="signal-btn signal-btn-primary" id="cta-nomination-confirm" type="button">RETOUR AU SIGNAL</button>
                 </div>
             </div>
         </section>
@@ -206,7 +241,7 @@
         <!-- ============ SCREEN 3 — WHAT IS PANNA ============ -->
         <section class="signal-screen" id="screen-what-is-panna" data-tap-advance="cta-what-is-panna">
             <div class="signal-inner">
-                <p class="reveal-line signal-headline" data-delay="150">1 VS 1.</p>
+                <p class="reveal-line signal-headline" data-delay="150">1 CONTRE 1.</p>
                 <div class="signal-video-wrap reveal-line" data-delay="700">
                     <video
                         class="signal-video"
@@ -220,12 +255,12 @@
                         <!-- Replace source below with the real panna clip. Path is set in signal-config.js (VIDEO_PATH). -->
                         <source id="signalVideoSource" src="" type="video/mp4">
                     </video>
-                    <button class="signal-video-play" id="signalVideoPlay" type="button" aria-label="Play video">▶</button>
+                    <button class="signal-video-play" id="signalVideoPlay" type="button" aria-label="Lire la vidéo">▶</button>
                 </div>
-                <p class="reveal-line signal-body-sm" data-delay="1200">No team. No excuses.<br>Just you and your opponent.</p>
-                <p class="reveal-line signal-emphasis-sm" data-delay="1700">CAN YOU GET THROUGH?</p>
+                <p class="reveal-line signal-body-sm" data-delay="1200">Pas d'équipe. Pas d'excuses.<br>Juste toi et ton adversaire.</p>
+                <p class="reveal-line signal-emphasis-sm" data-delay="1700">TU PEUX PASSER ?</p>
                 <div class="signal-cta-group reveal-cta">
-                    <button class="signal-btn signal-btn-primary" id="cta-what-is-panna" type="button">CONTINUE</button>
+                    <button class="signal-btn signal-btn-primary" id="cta-what-is-panna" type="button">CONTINUER</button>
                 </div>
             </div>
         </section>
@@ -233,8 +268,8 @@
         <!-- ============ SCREEN 4 — THE ROAD ============ -->
         <section class="signal-screen" id="screen-road" data-tap-advance="cta-road">
             <div class="signal-inner">
-                <p class="reveal-line signal-headline-sm" data-delay="150">THE ROAD TO THE<br>FIRST CHAMPION</p>
-                <div class="signal-bracket reveal-line" data-delay="700" aria-label="Tournament progression: 32 to 16 to 8 to 4 to 2 to 1">
+                <p class="reveal-line signal-headline-sm" data-delay="150">LA ROUTE VERS LE<br>PREMIER CHAMPION</p>
+                <div class="signal-bracket reveal-line" data-delay="700" aria-label="Progression du tournoi : 32 à 16 à 8 à 4 à 2 à 1">
                     <span class="bracket-num">32</span>
                     <span class="bracket-arrow">↓</span>
                     <span class="bracket-num">16</span>
@@ -247,9 +282,9 @@
                     <span class="bracket-arrow">↓</span>
                     <span class="bracket-num bracket-num-final">1</span>
                 </div>
-                <p class="reveal-line signal-body-sm" data-delay="1400">Everyone starts at zero.<br>One finishes first.</p>
+                <p class="reveal-line signal-body-sm" data-delay="1400">Tout le monde part de zéro.<br>Un seul finit premier.</p>
                 <div class="signal-cta-group reveal-cta">
-                    <button class="signal-btn signal-btn-primary" id="cta-road" type="button">CONTINUE</button>
+                    <button class="signal-btn signal-btn-primary" id="cta-road" type="button">CONTINUER</button>
                 </div>
             </div>
         </section>
@@ -258,10 +293,10 @@
         <section class="signal-screen signal-screen-lausanne" id="screen-lausanne" data-tap-advance="cta-lausanne">
             <div class="signal-inner">
                 <p class="reveal-line signal-headline" data-delay="150">LAUSANNE</p>
-                <p class="reveal-line signal-emphasis-sm" data-delay="800">THE FIRST SIGNAL STARTED HERE.</p>
-                <p class="reveal-line signal-body-sm" data-delay="1400">The first Panna League begins in Lausanne.<br>But this is only the beginning.</p>
+                <p class="reveal-line signal-emphasis-sm" data-delay="800">LE PREMIER SIGNAL A COMMENCÉ ICI.</p>
+                <p class="reveal-line signal-body-sm" data-delay="1400">La première Panna League commence à Lausanne.<br>Mais ce n'est que le début.</p>
                 <div class="signal-cta-group reveal-cta">
-                    <button class="signal-btn signal-btn-primary" id="cta-lausanne" type="button">KEEP WATCHING</button>
+                    <button class="signal-btn signal-btn-primary" id="cta-lausanne" type="button">CONTINUER À REGARDER</button>
                 </div>
             </div>
         </section>
@@ -269,11 +304,11 @@
         <!-- ============ SCREEN 6 — THE FUTURE ============ -->
         <section class="signal-screen" id="screen-future" data-tap-advance="cta-future">
             <div class="signal-inner">
-                <p class="reveal-line signal-headline-sm" data-delay="150">THIS IS ONLY<br>THE BEGINNING.</p>
-                <p class="reveal-line signal-body-sm" data-delay="800">Lausanne is where the signal starts.<br>The competition can go further.</p>
+                <p class="reveal-line signal-headline-sm" data-delay="150">CE N'EST QUE<br>LE DÉBUT.</p>
+                <p class="reveal-line signal-body-sm" data-delay="800">Lausanne, c'est là où le signal démarre.<br>La compétition peut aller plus loin.</p>
                 <p class="reveal-line signal-route" data-delay="1500">LAUSANNE → ? → ? → ?</p>
                 <div class="signal-cta-group reveal-cta">
-                    <button class="signal-btn signal-btn-primary" id="cta-future" type="button">FOLLOW THE SIGNAL</button>
+                    <button class="signal-btn signal-btn-primary" id="cta-future" type="button">SUIVRE LE SIGNAL</button>
                 </div>
             </div>
         </section>
@@ -281,9 +316,9 @@
         <!-- ============ SCREEN 7 — FINAL ============ -->
         <section class="signal-screen signal-screen-final" id="screen-final">
             <div class="signal-inner">
-                <p class="reveal-line signal-headline" data-delay="150">32 PLAYERS.</p>
+                <p class="reveal-line signal-headline" data-delay="150">32 JOUEURS.</p>
                 <p class="reveal-line signal-headline" data-delay="900">1 CHAMPION.</p>
-                <p class="reveal-line signal-emphasis" data-delay="1700">WHO'S NEXT?</p>
+                <p class="reveal-line signal-emphasis" data-delay="1700">QUI SERA LE PROCHAIN ?</p>
 
                 <div class="signal-final-brand reveal-line" data-delay="2400">
                     <img src="/logo.png" alt="Panna League" class="signal-final-logo">
@@ -292,26 +327,26 @@
                 </div>
 
                 <div class="signal-cta-group reveal-cta signal-cta-stack">
-                    <button class="signal-btn signal-btn-primary signal-btn-large" id="cta-final-become" type="button">BECOME THE FIRST</button>
-                    <button class="signal-btn signal-btn-ghost" id="cta-final-follow" type="button">FOLLOW THE SIGNAL</button>
+                    <button class="signal-btn signal-btn-primary signal-btn-large" id="cta-final-become" type="button">DEVIENS LE PREMIER</button>
+                    <button class="signal-btn signal-btn-ghost" id="cta-final-follow" type="button">SUIVRE LE SIGNAL</button>
                 </div>
 
-                <div class="signal-social reveal-cta" id="signalSocial" aria-label="Follow Panna League"></div>
+                <div class="signal-social reveal-cta" id="signalSocial" aria-label="Suivre Panna League"></div>
 
-                <button class="signal-btn signal-btn-text signal-send-signal reveal-cta" id="ctaSendSignal" type="button">SEND THE SIGNAL</button>
+                <button class="signal-btn signal-btn-text signal-send-signal reveal-cta" id="ctaSendSignal" type="button">ENVOYER LE SIGNAL</button>
             </div>
         </section>
 
     </main>
 
     <!-- Share sheet (native share / fallback menu) -->
-    <div class="signal-share-sheet" id="shareSheet" role="dialog" aria-modal="true" aria-label="Send the signal" hidden>
+    <div class="signal-share-sheet" id="shareSheet" role="dialog" aria-modal="true" aria-label="Envoyer le signal" hidden>
         <div class="signal-share-card">
-            <p class="signal-share-title">SEND THE SIGNAL</p>
+            <p class="signal-share-title">ENVOYER LE SIGNAL</p>
             <button class="signal-share-option" data-share="whatsapp" type="button">WhatsApp</button>
             <button class="signal-share-option" data-share="facebook" type="button">Facebook</button>
-            <button class="signal-share-option" data-share="copy" type="button">Copy link</button>
-            <button class="signal-btn signal-btn-text" id="shareSheetClose" type="button">Close</button>
+            <button class="signal-share-option" data-share="copy" type="button">Copier le lien</button>
+            <button class="signal-btn signal-btn-text" id="shareSheetClose" type="button">Fermer</button>
         </div>
     </div>
 

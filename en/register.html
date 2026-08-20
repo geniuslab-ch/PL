@@ -4,11 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Register your interest for Panna League #001, a new 1v1 football challenge launching in Lausanne, Switzerland.">
-    <meta name="og:title" content="Panna League #001 | Register for 1v1 Football">
-    <meta name="og:description" content="Register your interest for Panna League #001, a new 1v1 football challenge launching in Lausanne, Switzerland.">
-    <meta name="og:image" content="/assets/og-image.jpg">
+    <meta property="og:title" content="Panna League #001 | Register for 1v1 Football">
+    <meta property="og:description" content="Register your interest for Panna League #001, a new 1v1 football challenge launching in Lausanne, Switzerland.">
+    <meta property="og:image" content="https://panna-league.vercel.app/assets/og-image.jpg">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:url" content="https://panna-league.vercel.app/en/register.html">
     <meta name="theme-color" content="#FFD700">
     <title>Panna League #001 | Register for 1v1 Football</title>
+    <link rel="alternate" hreflang="fr" href="https://panna-league.vercel.app/register.html">
+    <link rel="alternate" hreflang="en" href="https://panna-league.vercel.app/en/register.html">
+    <link rel="alternate" hreflang="x-default" href="https://panna-league.vercel.app/register.html">
+    <link rel="canonical" href="https://panna-league.vercel.app/en/register.html">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="icon" type="image/png" sizes="160x160" href="/assets/logo-nav.png">
     <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -27,12 +34,12 @@
                     <span class="logo-text">PANNA LEAGUE</span>
                 </a>
             </div>
-            <button class="hamburger" id="hamburger">
+            <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navMenu">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
-            <ul class="nav-menu" id="navMenu">
+            <ul class="nav-menu" id="navMenu" role="menu">
                 <li><a href="/en/#about" class="nav-link">ABOUT</a></li>
                 <li><a href="/en/#register" class="nav-link">REGISTER</a></li>
                 <li><a href="/en/club.html" class="nav-link">PARTNERS</a></li>
@@ -94,6 +101,7 @@
                 <p class="form-intro">Fill out the form below and we'll contact you when Panna League #001 is confirmed.</p>
 
                 <form class="player-form" id="playerForm" action="https://formspree.io/f/xgawrovp" method="POST">
+                        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
                     <div class="form-row">
                         <div class="form-group">
                             <label for="first-name">First Name *</label>

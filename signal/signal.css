@@ -1,0 +1,784 @@
+/* ============================================================
+   THE SIGNAL — CAMPAIGN STYLESHEET
+   ============================================================
+   Visual identity: near-black, white, one accent color.
+   Change --accent below to re-theme the ENTIRE experience.
+   (Defaults to the Panna League logo gold, for brand consistency.)
+   ============================================================ */
+
+:root {
+    /* ---- THE ONE COLOR TO CHANGE ---- */
+    --accent: #FFD700;
+
+    /* Derived / supporting colors — rarely need editing */
+    --accent-dim: #cca300;
+    --accent-glow: rgba(255, 215, 0, 0.35);
+    --black: #060606;
+    --black-soft: #0d0d0d;
+    --gray-900: #141414;
+    --gray-700: #333333;
+    --gray-400: #8a8a8a;
+    --white: #ffffff;
+    --white-soft: #e8e8e8;
+
+    --font-display: 'Anton', 'Segoe UI', sans-serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+    --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
+    --dur-fast: 350ms;
+    --dur-med: 550ms;
+    --dur-slow: 900ms;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden; /* each screen is a full viewport; no page scroll */
+    background: var(--black);
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--white);
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+}
+
+button {
+    font-family: var(--font-body);
+    cursor: pointer;
+}
+
+/* ============================================================
+   AMBIENT BACKGROUND (shared across all screens)
+   ============================================================ */
+
+.signal-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: radial-gradient(ellipse at 50% 30%, var(--gray-900) 0%, var(--black) 70%);
+    pointer-events: none;
+}
+
+.signal-grain {
+    position: absolute;
+    inset: -20%;
+    background-image: url('/signal/assets/grain.png');
+    background-repeat: repeat;
+    opacity: 0.045;
+    animation: grainShift 8s steps(6) infinite;
+}
+
+@keyframes grainShift {
+    0%   { transform: translate(0, 0); }
+    20%  { transform: translate(-3%, 2%); }
+    40%  { transform: translate(2%, -2%); }
+    60%  { transform: translate(-2%, -3%); }
+    80%  { transform: translate(3%, 1%); }
+    100% { transform: translate(0, 0); }
+}
+
+.signal-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.18;
+    background: var(--accent);
+}
+
+.signal-glow-1 {
+    width: 50vmax;
+    height: 50vmax;
+    top: -15vmax;
+    left: -10vmax;
+    animation: glowDrift1 14s ease-in-out infinite alternate;
+}
+
+.signal-glow-2 {
+    width: 40vmax;
+    height: 40vmax;
+    bottom: -15vmax;
+    right: -10vmax;
+    opacity: 0.12;
+    animation: glowDrift2 18s ease-in-out infinite alternate;
+}
+
+@keyframes glowDrift1 {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(4vmax, 3vmax) scale(1.12); }
+}
+
+@keyframes glowDrift2 {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(-3vmax, -4vmax) scale(1.08); }
+}
+
+/* ============================================================
+   PROGRESS DOTS
+   ============================================================ */
+
+.signal-progress {
+    position: fixed;
+    bottom: max(20px, env(safe-area-inset-bottom));
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    display: flex;
+    gap: 8px;
+    pointer-events: none;
+}
+
+.signal-progress .dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.18);
+    transition: background var(--dur-fast) ease, transform var(--dur-fast) ease;
+}
+
+.signal-progress .dot.dot-done {
+    background: var(--accent);
+}
+
+.signal-progress .dot.dot-current {
+    background: var(--white);
+    transform: scale(1.5);
+}
+
+/* ============================================================
+   SCREEN SYSTEM
+   ============================================================ */
+
+#signalRoot {
+    position: relative;
+    z-index: 1;
+    height: 100vh; /* fallback for browsers without dvh support (older in-app webviews) */
+    height: 100dvh;
+    width: 100%;
+}
+
+.signal-screen {
+    display: none;
+    position: absolute;
+    inset: 0;
+    align-items: center;
+    justify-content: center;
+    padding: 8vh 24px;
+    text-align: center;
+}
+
+.signal-screen.active {
+    display: flex;
+}
+
+.signal-screen.entering {
+    animation: screenEnter var(--dur-med) var(--ease-cinematic) both;
+}
+
+.signal-screen.leaving {
+    animation: screenLeave var(--dur-fast) var(--ease-cinematic) both;
+}
+
+@keyframes screenEnter {
+    from { opacity: 0; transform: scale(1.03); filter: blur(6px); }
+    to   { opacity: 1; transform: scale(1); filter: blur(0); }
+}
+
+@keyframes screenLeave {
+    from { opacity: 1; transform: scale(1); filter: blur(0); }
+    to   { opacity: 0; transform: scale(0.97); filter: blur(6px); }
+}
+
+.signal-inner {
+    max-width: 560px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+}
+
+/* Individual reveal lines — hidden until JS adds .visible */
+.reveal-line,
+.reveal-cta {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity var(--dur-med) var(--ease-cinematic), transform var(--dur-med) var(--ease-cinematic);
+}
+
+.reveal-line.visible,
+.reveal-cta.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+
+.signal-brand {
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 6vw, 2rem);
+    letter-spacing: 4px;
+    color: var(--white);
+}
+
+.signal-headline {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 11vw, 4.2rem);
+    line-height: 1.05;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--white);
+}
+
+.signal-headline-sm {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 8vw, 2.8rem);
+    line-height: 1.1;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--white);
+}
+
+.signal-emphasis {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 7vw, 2.4rem);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--accent);
+    text-shadow: 0 0 24px var(--accent-glow);
+}
+
+.signal-emphasis-sm {
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 5vw, 1.6rem);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--accent);
+}
+
+.signal-body {
+    font-size: clamp(0.95rem, 3.2vw, 1.1rem);
+    line-height: 1.8;
+    color: var(--white-soft);
+    font-weight: 400;
+    max-width: 440px;
+}
+
+.signal-body-sm {
+    font-size: clamp(0.85rem, 3vw, 0.98rem);
+    line-height: 1.75;
+    color: var(--gray-400);
+    max-width: 420px;
+}
+
+.signal-location {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 7vw, 2.2rem);
+    letter-spacing: 6px;
+    color: var(--accent);
+}
+
+.signal-route {
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 4.5vw, 1.5rem);
+    letter-spacing: 2px;
+    color: var(--gray-400);
+}
+
+/* Glitch effect — used sparingly, on the very first line only */
+.glitch-text {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 7vw, 2.4rem);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--white);
+    position: relative;
+}
+
+.glitch-text.glitching::before,
+.glitch-text.glitching::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    left: 0;
+}
+
+.glitch-text.glitching::before {
+    color: var(--accent);
+    animation: glitchShift1 320ms steps(2) 1;
+    clip-path: inset(0 0 60% 0);
+}
+
+.glitch-text.glitching::after {
+    color: #00e5ff;
+    animation: glitchShift2 320ms steps(2) 1;
+    clip-path: inset(60% 0 0 0);
+}
+
+@keyframes glitchShift1 {
+    0%   { transform: translate(0, 0); }
+    50%  { transform: translate(-3px, 1px); }
+    100% { transform: translate(0, 0); }
+}
+
+@keyframes glitchShift2 {
+    0%   { transform: translate(0, 0); }
+    50%  { transform: translate(3px, -1px); }
+    100% { transform: translate(0, 0); }
+}
+
+/* Signal pulse dot (discovery screen) */
+.signal-pulse {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 28px;
+}
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 0 var(--accent-glow);
+    animation: pulseRing 1.8s ease-out infinite;
+}
+
+@keyframes pulseRing {
+    0%   { box-shadow: 0 0 0 0 var(--accent-glow); }
+    70%  { box-shadow: 0 0 0 22px rgba(255, 215, 0, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+.signal-cta-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.signal-cta-stack {
+    width: 100%;
+}
+
+.signal-btn {
+    font-family: var(--font-body);
+    font-weight: 800;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 16px 40px;
+    border-radius: 4px;
+    border: 2px solid transparent;
+    transition: transform var(--dur-fast) ease, box-shadow var(--dur-fast) ease, background var(--dur-fast) ease, color var(--dur-fast) ease;
+    touch-action: manipulation;
+}
+
+.signal-btn-primary {
+    background: var(--accent);
+    color: var(--black);
+    box-shadow: 0 8px 28px var(--accent-glow);
+}
+
+.signal-btn-primary:active {
+    transform: scale(0.97);
+}
+
+.signal-btn-large {
+    width: 100%;
+    max-width: 340px;
+    padding: 18px 32px;
+}
+
+.signal-btn-ghost {
+    background: transparent;
+    color: var(--white);
+    border-color: rgba(255, 255, 255, 0.3);
+    width: 100%;
+    max-width: 340px;
+}
+
+.signal-btn-ghost:active {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.signal-btn-text {
+    background: none;
+    color: var(--gray-400);
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    padding: 10px 12px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.signal-btn-block {
+    width: 100%;
+    margin-top: 8px;
+}
+
+/* ============================================================
+   FORMS
+   ============================================================ */
+
+.signal-screen-form {
+    align-items: flex-start;
+    overflow-y: auto;
+    padding-top: max(28px, env(safe-area-inset-top));
+    padding-bottom: 40px;
+}
+
+.signal-inner-form {
+    text-align: left;
+    align-items: stretch;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.signal-inner-form .signal-headline-sm {
+    text-align: center;
+}
+
+.signal-inner-form .signal-body-sm {
+    text-align: center;
+    max-width: none;
+}
+
+.signal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+.signal-field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.signal-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.signal-field label {
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--gray-400);
+    font-weight: 600;
+}
+
+.signal-field input,
+.signal-field textarea {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1.5px solid rgba(255, 255, 255, 0.14);
+    border-radius: 4px;
+    padding: 13px 14px;
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+}
+
+.signal-field input:focus,
+.signal-field textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: rgba(255, 215, 0, 0.05);
+}
+
+.signal-field input[type="file"] {
+    padding: 10px;
+    font-size: 0.82rem;
+    color: var(--gray-400);
+}
+
+.signal-field textarea {
+    resize: vertical;
+    min-height: 70px;
+}
+
+.signal-field-hint {
+    font-size: 0.72rem;
+    color: var(--gray-400);
+}
+
+/* ============================================================
+   VIDEO (What is Panna screen)
+   ============================================================ */
+
+.signal-video-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 9 / 12;
+    max-height: 42vh;
+    background: var(--gray-900);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.signal-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    background: var(--gray-900);
+}
+
+.signal-video-play {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.55);
+    border: 2px solid var(--accent);
+    color: var(--accent);
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+}
+
+.signal-video-play.hidden {
+    display: none;
+}
+
+/* ============================================================
+   THE ROAD (bracket)
+   ============================================================ */
+
+.signal-bracket {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    font-family: var(--font-display);
+}
+
+.bracket-num {
+    font-size: clamp(1.1rem, 4.5vw, 1.6rem);
+    color: var(--white-soft);
+    opacity: 0.55;
+}
+
+.bracket-num-final {
+    color: var(--accent);
+    opacity: 1;
+    text-shadow: 0 0 20px var(--accent-glow);
+    font-size: clamp(1.6rem, 6vw, 2.2rem);
+}
+
+.bracket-arrow {
+    color: var(--gray-700);
+    font-size: 0.9rem;
+}
+
+/* ============================================================
+   FINAL SCREEN
+   ============================================================ */
+
+.signal-final-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin: 4px 0 8px;
+}
+
+.signal-final-logo {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    margin-bottom: 4px;
+    filter: drop-shadow(0 0 20px var(--accent-glow));
+}
+
+.signal-final-name {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    letter-spacing: 3px;
+}
+
+.signal-final-tag {
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    color: var(--gray-400);
+}
+
+.signal-social {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 4px;
+}
+
+.signal-social a {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    color: var(--white);
+    font-size: 0.9rem;
+    transition: border-color var(--dur-fast) ease, color var(--dur-fast) ease;
+}
+
+.signal-social a:active {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.signal-send-signal {
+    margin-top: 10px;
+}
+
+/* ============================================================
+   SHARE SHEET
+   ============================================================ */
+
+.signal-share-sheet {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: rgba(0, 0, 0, 0.72);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+}
+
+.signal-share-sheet[hidden] {
+    display: none;
+}
+
+.signal-share-card {
+    width: 100%;
+    max-width: 420px;
+    background: var(--black-soft);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px 16px 0 0;
+    padding: 24px 20px max(24px, env(safe-area-inset-bottom));
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    animation: sheetUp var(--dur-fast) var(--ease-cinematic) both;
+}
+
+@keyframes sheetUp {
+    from { transform: translateY(100%); }
+    to   { transform: translateY(0); }
+}
+
+.signal-share-title {
+    font-family: var(--font-display);
+    letter-spacing: 2px;
+    text-align: center;
+    margin-bottom: 6px;
+    color: var(--accent);
+}
+
+.signal-share-option {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--white);
+    padding: 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.signal-share-option:active {
+    border-color: var(--accent);
+}
+
+/* ============================================================
+   ACCESSIBILITY
+   ============================================================ */
+
+.signal-btn:focus-visible,
+.signal-field input:focus-visible,
+.signal-field textarea:focus-visible,
+.signal-social a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .signal-grain,
+    .signal-glow-1,
+    .signal-glow-2,
+    .pulse-dot {
+        animation: none !important;
+    }
+
+    .signal-screen.entering,
+    .signal-screen.leaving {
+        animation: none !important;
+    }
+
+    .reveal-line,
+    .reveal-cta {
+        transition: opacity 150ms linear !important;
+        transform: none !important;
+    }
+
+    .glitch-text.glitching::before,
+    .glitch-text.glitching::after {
+        animation: none !important;
+        content: none !important;
+    }
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (min-width: 900px) {
+    .signal-inner {
+        max-width: 620px;
+    }
+
+    .signal-field-row {
+        gap: 16px;
+    }
+}
+
+@media (max-height: 600px) {
+    .signal-inner {
+        gap: 12px;
+    }
+
+    .signal-video-wrap {
+        max-height: 30vh;
+    }
+}
+
+@media (max-width: 360px) {
+    .signal-btn {
+        padding: 14px 28px;
+    }
+}

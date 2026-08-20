@@ -4,11 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Panna League brings competitive 1v1 football to Lausanne. Discover the concept and become a club, academy or venue partner.">
-    <meta name="og:title" content="Panna League | 1v1 Football Events & Club Partnerships">
-    <meta name="og:description" content="Panna League brings competitive 1v1 football to Lausanne. Discover the concept and become a club, academy or venue partner.">
-    <meta name="og:image" content="/assets/og-image.jpg">
+    <meta property="og:title" content="Panna League | 1v1 Football Events & Club Partnerships">
+    <meta property="og:description" content="Panna League brings competitive 1v1 football to Lausanne. Discover the concept and become a club, academy or venue partner.">
+    <meta property="og:image" content="https://panna-league.vercel.app/assets/og-image.jpg">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:url" content="https://panna-league.vercel.app/en/club.html">
     <meta name="theme-color" content="#FFD700">
     <title>Panna League | 1v1 Football Events & Club Partnerships</title>
+    <link rel="alternate" hreflang="fr" href="https://panna-league.vercel.app/club.html">
+    <link rel="alternate" hreflang="en" href="https://panna-league.vercel.app/en/club.html">
+    <link rel="alternate" hreflang="x-default" href="https://panna-league.vercel.app/club.html">
+    <link rel="canonical" href="https://panna-league.vercel.app/en/club.html">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="icon" type="image/png" sizes="160x160" href="/assets/logo-nav.png">
     <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -27,12 +34,12 @@
                     <span class="logo-text">PANNA LEAGUE</span>
                 </a>
             </div>
-            <button class="hamburger" id="hamburger">
+            <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navMenu">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
-            <ul class="nav-menu" id="navMenu">
+            <ul class="nav-menu" id="navMenu" role="menu">
                 <li><a href="/en/#about" class="nav-link">ABOUT</a></li>
                 <li><a href="/en/#register" class="nav-link">REGISTER</a></li>
                 <li><a href="/en/club.html" class="nav-link">PARTNERS</a></li>
@@ -238,6 +245,7 @@
             <p class="section-intro">We're currently looking for football clubs, academies and venues in Lausanne/Vaud interested in helping launch the first Panna League event.</p>
             
             <form class="partnership-form" id="partnershipForm" action="https://formspree.io/f/xkjwkogy" method="POST">
+                <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
                 <div class="form-group">
                     <label for="partner-name">Name *</label>
                     <input type="text" id="partner-name" name="name" required>

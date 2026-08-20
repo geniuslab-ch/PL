@@ -85,3 +85,17 @@ Do this in **all 8 HTML files** where the relevant form appears (4 FR + 4 EN) �
 
 ## Contact
 `pannaleague@mycountryisgoodat.com`
+
+---
+
+## Hidden campaign microsite — `/signal`
+
+There's an isolated guerrilla-marketing experience at `/signal`, built for a physical QR-code
+installation in Lausanne ("THE SIGNAL" campaign). It is intentionally **not linked from anywhere**
+on the main site and is excluded from the sitemap and `robots.txt` — it should only be reached by
+scanning a QR code or knowing the URL directly.
+
+- Full docs: `signal/README.md`
+- Everything editable (social links, form endpoints, video, share text, accent color) lives in
+  `signal/signal-config.js` and the `--accent` CSS variable at the top of `signal/signal.css`.
+- Internal QR-code generator (also unlinked): `/signal/qr-generator.html`

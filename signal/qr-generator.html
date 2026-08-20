@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Signal — QR Generator (internal)</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: -apple-system, 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+        .wrap {
+            max-width: 420px;
+            width: 100%;
+            background: #141414;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 28px;
+        }
+        h1 {
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+        .sub {
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+            margin-bottom: 6px;
+            margin-top: 16px;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 6px;
+            color: #fff;
+            font-size: 0.9rem;
+        }
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 12px;
+            background: #FFD700;
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+        #qrOutput {
+            margin-top: 24px;
+            text-align: center;
+            display: none;
+        }
+        #qrOutput.visible { display: block; }
+        #qrCanvasWrap {
+            display: inline-block;
+            padding: 16px;
+            background: #fff;
+            border-radius: 8px;
+        }
+        .url-preview {
+            margin-top: 14px;
+            font-size: 0.75rem;
+            color: #999;
+            word-break: break-all;
+            background: rgba(255,255,255,0.04);
+            padding: 10px;
+            border-radius: 6px;
+        }
+        .download-link {
+            display: inline-block;
+            margin-top: 14px;
+            color: #FFD700;
+            font-size: 0.85rem;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <h1>THE SIGNAL — QR GENERATOR</h1>
+        <p class="sub">Internal tool. Not linked from the site. Generates a QR code pointing to /signal with an optional ?source= tag for analytics.</p>
+
+        <label for="sourceSelect">Known installation</label>
+        <select id="sourceSelect">
+            <option value="">— custom below —</option>
+        </select>
+
+        <label for="sourceCustom">Source tag (or type a new one)</label>
+        <input type="text" id="sourceCustom" placeholder="e.g. lausanne01, flon01">
+
+        <button id="generateBtn" type="button">GENERATE QR CODE</button>
+
+        <div id="qrOutput">
+            <div id="qrCanvasWrap"></div>
+            <p class="url-preview" id="urlPreview"></p>
+            <a class="download-link" id="downloadLink" download="signal-qr.png">Download PNG</a>
+        </div>
+    </div>
+
+    <script src="/signal/signal-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script>
+        const select = document.getElementById('sourceSelect');
+        (window.SIGNAL_CONFIG.KNOWN_SOURCES || []).forEach((s) => {
+            const opt = document.createElement('option');
+            opt.value = s;
+            opt.textContent = s;
+            select.appendChild(opt);
+        });
+        select.addEventListener('change', () => {
+            if (select.value) document.getElementById('sourceCustom').value = select.value;
+        });
+
+        document.getElementById('generateBtn').addEventListener('click', () => {
+            const source = document.getElementById('sourceCustom').value.trim();
+            const base = window.SIGNAL_CONFIG.SIGNAL_URL;
+            const url = source ? base + '?source=' + encodeURIComponent(source) : base;
+
+            const wrap = document.getElementById('qrCanvasWrap');
+            wrap.innerHTML = '';
+            new QRCode(wrap, {
+                text: url,
+                width: 240,
+                height: 240,
+                colorDark: '#0a0a0a',
+                colorLight: '#ffffff',
+                correctLevel: QRCode.CorrectLevel.M,
+            });
+
+            document.getElementById('urlPreview').textContent = url;
+            document.getElementById('qrOutput').classList.add('visible');
+
+            // Wait for the QR canvas/img to render, then wire up download
+            setTimeout(() => {
+                const canvas = wrap.querySelector('canvas');
+                const link = document.getElementById('downloadLink');
+                if (canvas) {
+                    link.href = canvas.toDataURL('image/png');
+                }
+            }, 100);
+        });
+    </script>
+</body>
+</html>

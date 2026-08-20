@@ -14,6 +14,7 @@ PL/
 ├── club.html            # Club/venue partnership page — FRENCH
 ├── register.html        # Standalone player registration — FRENCH
 ├── privacy.html          # Privacy policy — FRENCH
+├── 404.html              # Custom bilingual 404 page
 │
 ├── en/                    # Full English version (mirrors root)
 │   ├── index.html

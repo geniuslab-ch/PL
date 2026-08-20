@@ -1,18 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /private/
-Disallow: /admin/
 
-Sitemap: https://pannaleague.ch/sitemap.xml
-
-# Crawl delay (in seconds)
-Crawl-delay: 1
-
-# Specific rules for major search engines
-User-agent: Googlebot
-Allow: /
-Crawl-delay: 0.5
-
-User-agent: Bingbot
-Allow: /
-Crawl-delay: 1
+Sitemap: https://panna-league.vercel.app/sitemap.xml

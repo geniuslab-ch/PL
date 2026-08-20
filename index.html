@@ -4,11 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Panna League - Championnat de football 1v1 à Lausanne. Affrontez-vous, montrez vos skills et représentez votre club.">
-    <meta name="og:title" content="Panna League | Le défi de football 1v1">
-    <meta name="og:description" content="Panna League apporte le football 1v1 compétitif à Lausanne. Inscrivez-vous au premier événement pilote #001.">
-    <meta name="og:image" content="https://panna-league.vercel.app/logo.png">
+    <meta property="og:title" content="Panna League | Le défi de football 1v1">
+    <meta property="og:description" content="Panna League apporte le football 1v1 compétitif à Lausanne. Inscrivez-vous au premier événement pilote #001.">
+    <meta property="og:image" content="https://panna-league.vercel.app/assets/og-image.jpg">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="fr_CH">
+    <meta property="og:url" content="https://panna-league.vercel.app/">
     <meta name="theme-color" content="#FFD700">
     <title>Panna League | Championnat de Football 1v1</title>
+    <link rel="alternate" hreflang="fr" href="https://panna-league.vercel.app/">
+    <link rel="alternate" hreflang="en" href="https://panna-league.vercel.app/en/">
+    <link rel="alternate" hreflang="x-default" href="https://panna-league.vercel.app/">
+    <link rel="canonical" href="https://panna-league.vercel.app/">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="icon" type="image/png" sizes="160x160" href="/assets/logo-nav.png">
     <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -27,12 +34,12 @@
                     <span class="logo-text">PANNA LEAGUE</span>
                 </a>
             </div>
-            <button class="hamburger" id="hamburger">
+            <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navMenu">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
-            <ul class="nav-menu" id="navMenu">
+            <ul class="nav-menu" id="navMenu" role="menu">
                 <li><a href="#about" class="nav-link">CONCEPT</a></li>
                 <li><a href="#register" class="nav-link">S'INSCRIRE</a></li>
                 <li><a href="/club.html" class="nav-link">PARTENAIRES</a></li>
@@ -158,6 +165,7 @@
                     <p class="form-note">Aucun paiement requis à ce stade. Nous validons la demande avant de confirmer l'événement.</p>
                     
                     <form class="player-form" id="playerForm" action="https://formspree.io/f/xgawrovp" method="POST">
+                        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="first-name">Prénom *</label>

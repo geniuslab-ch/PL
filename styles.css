@@ -232,6 +232,14 @@ section.py-md {
     align-items: center;
 }
 
+.nav-menu li {
+    margin-left: var(--spacing-xl);
+}
+
+.nav-menu li:first-child {
+    margin-left: 0;
+}
+
 .nav-link {
     font-weight: 600;
     font-size: 0.9rem;
@@ -329,6 +337,15 @@ section.py-md {
         border-bottom: 1px solid var(--color-off-white);
     }
 
+    .nav-menu li {
+        margin-left: 0;
+        margin-top: var(--spacing-md);
+    }
+
+    .nav-menu li:first-child {
+        margin-top: 0;
+    }
+
     .nav-menu.active {
         left: 0;
     }
@@ -406,10 +423,6 @@ section.py-md {
     margin-bottom: var(--spacing-lg);
     text-transform: uppercase;
     font-size: clamp(2.5rem, 8vw, 4.5rem);
-    background: linear-gradient(90deg, #ffffff 0%, #ffffff 70%, var(--color-accent) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
     letter-spacing: 1px;
     font-weight: 900;
 }
@@ -531,6 +544,21 @@ section.py-md {
     background-color: var(--color-black);
     color: var(--color-white);
     transform: translateY(-2px);
+}
+
+/* On dark backgrounds (e.g. the premium hero), invert outline buttons so text/border stay visible */
+.hero-premium .btn-outline,
+.hero-secondary .btn-outline,
+.hero-register .btn-outline {
+    color: var(--color-white);
+    border-color: var(--color-accent);
+}
+
+.hero-premium .btn-outline:hover,
+.hero-secondary .btn-outline:hover,
+.hero-register .btn-outline:hover {
+    background-color: var(--color-accent);
+    color: var(--color-black);
 }
 
 .btn-large {
@@ -1660,7 +1688,7 @@ a.btn {
     }
 }
 
-.hero-title {
+.hero-premium .hero-title {
     color: var(--color-white);
     margin-bottom: var(--spacing-lg);
     text-transform: uppercase;

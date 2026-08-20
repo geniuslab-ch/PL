@@ -1,314 +1,342 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Panna League - Championnat de football 1v1 à Lausanne. Affrontez-vous, montrez vos skills et représentez votre club.">
-    <meta property="og:title" content="Panna League | Le défi de football 1v1">
-    <meta property="og:description" content="Panna League apporte le football 1v1 compétitif à Lausanne. Inscrivez-vous au premier événement pilote #001.">
-    <meta property="og:image" content="https://panna-league.vercel.app/assets/og-image.jpg">
-    <meta property="og:type" content="website">
-    <meta property="og:locale" content="fr_CH">
-    <meta property="og:url" content="https://panna-league.vercel.app/">
-    <meta name="theme-color" content="#FFD700">
-    <title>Panna League | Championnat de Football 1v1</title>
-    <link rel="alternate" hreflang="fr" href="https://panna-league.vercel.app/">
-    <link rel="alternate" hreflang="en" href="https://panna-league.vercel.app/en/">
-    <link rel="alternate" hreflang="x-default" href="https://panna-league.vercel.app/">
-    <link rel="canonical" href="https://panna-league.vercel.app/">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>THE SIGNAL</title>
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="icon" type="image/png" sizes="160x160" href="/assets/logo-nav.png">
-    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/signal/signal.css">
+    <!--
+        THE SIGNAL — Panna League guerrilla campaign microsite.
+        This page is intentionally NOT linked from the main site.
+        It is only meant to be discovered via a QR code (see /signal/qr-generator.html).
+        Config (accent color, social links, form endpoints, video path, share text)
+        lives in ONE place: /signal/signal-config.js — edit that file only.
+    -->
+
+    <!--
+        GOOGLE ANALYTICS 4 — see the matching comment in /signal/index.html
+        (the French version) for full setup steps. Use the SAME
+        Measurement ID here as there — one GA4 property covers both
+        languages; source/location tracking works identically on either.
+    -->
+    <!--
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
+    -->
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <a href="/">
-                    <img src="/logo.png" alt="Panna League" width="40" height="40" class="logo-img">
-                    <span class="logo-text">PANNA LEAGUE</span>
-                </a>
-            </div>
-            <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navMenu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <ul class="nav-menu" id="navMenu" role="menu">
-                <li><a href="#about" class="nav-link">CONCEPT</a></li>
-                <li><a href="#register" class="nav-link">S'INSCRIRE</a></li>
-                <li><a href="/club.html" class="nav-link">PARTENAIRES</a></li>
-                <li><a href="#contact" class="nav-link nav-primary">NOUS CONTACTER</a></li>
-                <li class="lang-switch"><a href="/en/" class="nav-link lang-link">🇬🇧 EN</a></li>
-            </ul>
-        </div>
-    </nav>
 
-    <!-- Hero Section - Premium Sales Funnel -->
-    <section class="hero hero-premium">
-        <div class="hero-content">
-            <img src="/logo.png" alt="Panna League" class="hero-logo">
-            <div class="hero-badge">🎯 BIENTÔT À LAUSANNE</div>
-            <h1 class="hero-title">QUI EST LE MEILLEUR EN 1V1 ?</h1>
-            <p class="hero-subtitle">Panna League apporte le format de football 1v1 le plus rapide et le plus technique à Lausanne. Affronte. Montre. Domine.</p>
-            <div class="hero-stats">
-                <div class="stat">
-                    <div class="stat-number">1</div>
-                    <div class="stat-label">Format</div>
+    <!-- Ambient background layers (grain + glow), shared across all screens -->
+    <div class="signal-bg" aria-hidden="true">
+        <div class="signal-grain"></div>
+        <div class="signal-glow signal-glow-1"></div>
+        <div class="signal-glow signal-glow-2"></div>
+    </div>
+
+    <!-- Progress dots (subtle, bottom, non-intrusive) -->
+    <div class="signal-progress" id="signalProgress" aria-hidden="true"></div>
+
+    <!-- Language switch (minimal, corner, doesn't break the isolated campaign feel) -->
+    <div class="signal-lang-switch">
+        <a href="#" id="langSwitchLink">FR</a>
+    </div>
+
+    <main id="signalRoot">
+
+        <!-- ============ SCREEN 0 — DISCOVERY ============ -->
+        <section class="signal-screen" id="screen-discovery" data-tap-advance="cta-discovery">
+            <div class="signal-inner">
+                <p class="reveal-line glitch-text" data-delay="200">YOU FOUND THE SIGNAL.</p>
+                <div class="signal-pulse reveal-line" data-delay="900" aria-hidden="true">
+                    <span class="pulse-dot"></span>
                 </div>
-                <div class="stat">
-                    <div class="stat-number">1v1</div>
-                    <div class="stat-label">Pure Skill</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">∞</div>
-                    <div class="stat-label">Potentiel</div>
+                <p class="reveal-line signal-location" data-delay="1700">LAUSANNE</p>
+                <div class="signal-cta-group reveal-cta">
+                    <button class="signal-btn signal-btn-primary" id="cta-discovery" type="button">ENTER</button>
                 </div>
             </div>
-            <div class="hero-cta">
-                <a href="#register" class="btn btn-primary btn-lg">JE M'INSCRIS</a>
-                <a href="/club.html" class="btn btn-outline btn-lg">DEVENIR PARTENAIRE</a>
-            </div>
-            <p class="hero-note">⚡ Places limitées pour l'événement pilote #001 • Date et lieu communiqués prochainement</p>
-        </div>
-        <div class="hero-accent"></div>
-        <div class="hero-accent-2"></div>
-    </section>
+        </section>
 
-    <!-- Trust Section -->
-    <section class="trust-section">
-        <div class="container">
-            <h2>Pourquoi Panna League ?</h2>
-            <div class="trust-grid">
-                <div class="trust-item">
-                    <div class="trust-icon">⚡</div>
-                    <h4>Rythme Intense</h4>
-                    <p>Des duels 1v1 à haute intensité qui testent ta technique, ta vitesse et tes prises de décision en temps réel.</p>
-                </div>
-                <div class="trust-item">
-                    <div class="trust-icon">🎬</div>
-                    <h4>Contenu Assuré</h4>
-                    <p>Chaque moment est partageable. Sois mis en avant sur nos réseaux et construis ta propre image.</p>
-                </div>
-                <div class="trust-item">
-                    <div class="trust-icon">🏆</div>
-                    <h4>Format Championnat</h4>
-                    <p>Une vraie compétition, de vrais vainqueurs. Prouve que tu es le meilleur et gagne en reconnaissance dans toute la Suisse.</p>
-                </div>
-                <div class="trust-item">
-                    <div class="trust-icon">👥</div>
-                    <h4>Communauté</h4>
-                    <p>Connecte-toi avec les meilleurs joueurs 1v1 de Lausanne. Développe ton réseau. Représente ton club.</p>
+        <!-- ============ SCREEN 1 — REVELATION ============ -->
+        <section class="signal-screen" id="screen-revelation" data-tap-advance="cta-revelation">
+            <div class="signal-inner">
+                <p class="reveal-line signal-brand" data-delay="150">PANNA LEAGUE</p>
+                <p class="reveal-line signal-headline" data-delay="700">32 PLAYERS.<br>1 WINNER.</p>
+                <p class="reveal-line signal-emphasis" data-delay="1500">NO CHAMPION YET.</p>
+                <p class="reveal-line signal-body" data-delay="2300">WE'RE LOOKING FOR THE FIRST ONE.</p>
+                <div class="signal-cta-group reveal-cta">
+                    <button class="signal-btn signal-btn-primary" id="cta-revelation" type="button">CONTINUE</button>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- About Section -->
-    <section class="about-section" id="about">
-        <div class="container">
-            <div class="about-grid">
-                <div class="about-text">
-                    <h2>C'EST QUOI LE PANNA ?</h2>
-                    <p>Le Panna est un format de football 1v1 pur qui ne garde que l'essentiel : le skill. Deux joueurs. Un ballon. Aucun travail d'équipe requis.</p>
-                    <p>Le « panna » — faire passer le ballon entre les jambes de son adversaire — est le geste signature qui définit ce format. Créativité, technique et mental sont les clés.</p>
-                    <p>Panna League apporte ce format authentique de street football à Lausanne, avec une structure de championnat, une organisation professionnelle et l'ambition de s'étendre dans toute la Suisse.</p>
-                    <ul class="about-list">
-                        <li>✓ Football 1v1 à petit format</li>
-                        <li>✓ Centré sur le skill et la technique</li>
-                        <li>✓ Matchs courts et intenses</li>
-                        <li>✓ Format championnat en tournoi</li>
-                    </ul>
-                </div>
-                <div class="about-visual">
-                    <div class="visual-box">
-                        <img src="/logo.png" alt="Panna League Badge" class="visual-logo">
-                    </div>
+        <!-- ============ SCREEN 2 — THE CHALLENGE ============ -->
+        <section class="signal-screen" id="screen-challenge">
+            <div class="signal-inner">
+                <p class="reveal-line signal-headline" data-delay="150">BECOME<br>THE FIRST.</p>
+                <p class="reveal-line signal-body" data-delay="900">The first Panna League champion.<br>Your name could be the first one written into the history of this competition.</p>
+                <div class="signal-cta-group reveal-cta signal-cta-stack">
+                    <button class="signal-btn signal-btn-primary signal-btn-large" id="cta-i-want-in" type="button">I WANT IN</button>
+                    <button class="signal-btn signal-btn-ghost" id="cta-i-know-someone" type="button">I KNOW SOMEONE</button>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Registration CTA Section -->
-    <section class="registration-cta" id="register">
-        <div class="container">
-            <div class="cta-content">
-                <h2>PANNA LEAGUE #001</h2>
-                <p class="cta-subtitle">Inscris-toi pour le premier événement pilote</p>
-                
-                <div class="event-info">
-                    <div class="info-item">
-                        <span class="info-label">FORMAT</span>
-                        <span class="info-value">Tournoi 1v1</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">LIEU</span>
-                        <span class="info-value">Région lausannoise</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">DATE</span>
-                        <span class="info-value">Bientôt communiquée</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">PLACES</span>
-                        <span class="info-value">Limitées</span>
-                    </div>
-                </div>
+        <!-- ============ SCREEN 2a — PLAYER APPLICATION FORM ============ -->
+        <section class="signal-screen signal-screen-form" id="screen-player-form">
+            <div class="signal-inner signal-inner-form">
+                <p class="reveal-line signal-headline-sm" data-delay="100">SUBMIT YOUR<br>CHALLENGE.</p>
+                <form class="signal-form reveal-line" data-delay="400" id="playerForm">
+                    <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+                    <input type="hidden" name="source" id="playerFormSource">
+                    <input type="hidden" name="_subject" value="New Panna League Signal application">
 
-                <div class="form-wrapper">
-                    <h3>Inscris ton intérêt</h3>
-                    <p class="form-note">Aucun paiement requis à ce stade. Nous validons la demande avant de confirmer l'événement.</p>
-                    
-                    <form class="player-form" id="playerForm" action="https://formspree.io/f/xgawrovp" method="POST">
-                        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="first-name">Prénom *</label>
-                                <input type="text" id="first-name" name="first_name" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="last-name">Nom *</label>
-                                <input type="text" id="last-name" name="last_name" required>
-                            </div>
+                    <div class="signal-field-row">
+                        <div class="signal-field">
+                            <label for="p-first-name">First name *</label>
+                            <input type="text" id="p-first-name" name="first_name" required>
                         </div>
-
-                        <div class="form-group">
-                            <label for="email">Email *</label>
-                            <input type="email" id="email" name="email" required>
+                        <div class="signal-field">
+                            <label for="p-last-name">Last name *</label>
+                            <input type="text" id="p-last-name" name="last_name" required>
                         </div>
-
-                        <div class="form-group">
-                            <label for="phone">Téléphone / WhatsApp *</label>
-                            <input type="tel" id="phone" name="phone" placeholder="+41 79 123 45 67" required>
-                            <p class="field-hint">📱 On utilisera WhatsApp pour t'envoyer tous les détails du rendez-vous (date, lieu, heure du match).</p>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="age-group">Tranche d'âge *</label>
-                                <select id="age-group" name="age_group" required>
-                                    <option value="">Sélectionner...</option>
-                                    <option value="Under 16">Moins de 16 ans</option>
-                                    <option value="16-17">16–17 ans</option>
-                                    <option value="18-24">18–24 ans</option>
-                                    <option value="25-34">25–34 ans</option>
-                                    <option value="35+">35 ans et +</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="club">Club de football (optionnel)</label>
-                                <input type="text" id="club" name="club" placeholder="ex. FC Lausanne">
-                            </div>
-                        </div>
-
-                        <div class="form-group form-checkbox">
-                            <input type="checkbox" id="contact-agree" name="contact_agree" required>
-                            <label for="contact-agree">J'accepte d'être contacté(e) au sujet des événements Panna League</label>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary btn-lg btn-block">OUI, JE M'INSCRIS</button>
-                    </form>
-
-                    <div id="registrationSuccess" class="success-message" style="display: none;">
-                        <div class="success-icon">✓</div>
-                        <h3>C'EST NOTÉ !</h3>
-                        <p>Merci pour ton inscription. On te contacte dès que les détails de Panna League #001 sont confirmés.</p>
-                        <a href="/" class="btn btn-secondary">RETOUR À L'ACCUEIL</a>
                     </div>
+
+                    <div class="signal-field">
+                        <label for="p-social">Instagram / TikTok username *</label>
+                        <input type="text" id="p-social" name="social_handle" placeholder="@yourname" required>
+                    </div>
+
+                    <div class="signal-field">
+                        <label for="p-contact">Phone or email *</label>
+                        <input type="text" id="p-contact" name="contact" required>
+                    </div>
+
+                    <div class="signal-field-row">
+                        <div class="signal-field">
+                            <label for="p-city">City *</label>
+                            <input type="text" id="p-city" name="city" required>
+                        </div>
+                        <div class="signal-field">
+                            <label for="p-club">Football club (optional)</label>
+                            <input type="text" id="p-club" name="club">
+                        </div>
+                    </div>
+
+                    <div class="signal-field">
+                        <label for="p-position">Position (optional)</label>
+                        <input type="text" id="p-position" name="position" placeholder="e.g. striker, winger, no fixed position">
+                    </div>
+
+                    <div class="signal-field">
+                        <label for="p-why">Why should you be one of the 32? *</label>
+                        <textarea id="p-why" name="why_you" rows="3" required></textarea>
+                    </div>
+
+                    <div class="signal-field">
+                        <label for="p-video">Upload a short panna/football video (optional)</label>
+                        <input type="file" id="p-video" name="video" accept="video/*">
+                        <p class="signal-field-hint">Max ~15 seconds. Show us a move.</p>
+                    </div>
+
+                    <button type="submit" class="signal-btn signal-btn-primary signal-btn-block">SUBMIT MY CHALLENGE</button>
+                    <button type="button" class="signal-btn signal-btn-text" data-back-to="screen-challenge">← back</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- ============ SCREEN 2a-confirm — PLAYER CONFIRMATION ============ -->
+        <section class="signal-screen" id="screen-player-confirm" data-tap-advance="cta-player-confirm">
+            <div class="signal-inner">
+                <p class="reveal-line signal-headline-sm" data-delay="150">APPLICATION<br>RECEIVED.</p>
+                <p class="reveal-line signal-body" data-delay="900">You are now on the radar.<br>The 32 will be selected.<br>Stay ready.</p>
+                <div class="signal-cta-group reveal-cta">
+                    <button class="signal-btn signal-btn-primary" id="cta-player-confirm" type="button">FOLLOW THE SIGNAL</button>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Social Proof Section -->
-    <section class="social-proof">
-        <div class="container">
-            <h2>REPRÉSENTE TON CLUB</h2>
-            <p>Les joueurs peuvent indiquer leur club de football lors de l'inscription. À mesure que la série se développe, nous introduirons classements de clubs, compétitions par équipe et reconnaissance spéciale.</p>
-            <div class="proof-features">
-                <div class="proof-item">
-                    <div class="proof-icon">🥇</div>
-                    <h4>Champion Individuel</h4>
-                </div>
-                <div class="proof-item">
-                    <div class="proof-icon">🏅</div>
-                    <h4>Meilleur Club</h4>
-                </div>
-                <div class="proof-item">
-                    <div class="proof-icon">📊</div>
-                    <h4>Classement des Clubs</h4>
-                </div>
-                <div class="proof-item">
-                    <div class="proof-icon">🎬</div>
-                    <h4>Contenu Réseaux Sociaux</h4>
+        <!-- ============ SCREEN 2b — NOMINATION FORM ============ -->
+        <section class="signal-screen signal-screen-form" id="screen-nomination-form">
+            <div class="signal-inner signal-inner-form">
+                <p class="reveal-line signal-headline-sm" data-delay="100">KNOW SOMEONE<br>WHO SHOULD BE HERE?</p>
+                <p class="reveal-line signal-body-sm" data-delay="400">You don't have to be the player.<br>You might know the one who should be.</p>
+                <form class="signal-form reveal-line" data-delay="700" id="nominationForm">
+                    <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+                    <input type="hidden" name="source" id="nominationFormSource">
+                    <input type="hidden" name="_subject" value="New Panna League Signal nomination">
+
+                    <div class="signal-field">
+                        <label for="n-your-name">Your name *</label>
+                        <input type="text" id="n-your-name" name="your_name" required>
+                    </div>
+
+                    <div class="signal-field">
+                        <label for="n-your-contact">Your email or phone *</label>
+                        <input type="text" id="n-your-contact" name="your_contact" required>
+                    </div>
+
+                    <div class="signal-field">
+                        <label for="n-player-name">Player's name *</label>
+                        <input type="text" id="n-player-name" name="player_name" required>
+                    </div>
+
+                    <div class="signal-field">
+                        <label for="n-player-social">Player's Instagram / TikTok *</label>
+                        <input type="text" id="n-player-social" name="player_social" placeholder="@theirname" required>
+                    </div>
+
+                    <div class="signal-field">
+                        <label for="n-player-city">Player's city *</label>
+                        <input type="text" id="n-player-city" name="player_city" required>
+                    </div>
+
+                    <div class="signal-field">
+                        <label for="n-why">Why should they be selected? *</label>
+                        <textarea id="n-why" name="why_them" rows="3" required></textarea>
+                    </div>
+
+                    <button type="submit" class="signal-btn signal-btn-primary signal-btn-block">NOMINATE THEM</button>
+                    <button type="button" class="signal-btn signal-btn-text" data-back-to="screen-challenge">← back</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- ============ SCREEN 2b-confirm — NOMINATION CONFIRMATION ============ -->
+        <section class="signal-screen" id="screen-nomination-confirm" data-tap-advance="cta-nomination-confirm">
+            <div class="signal-inner">
+                <p class="reveal-line signal-headline-sm" data-delay="150">NOMINATION<br>RECEIVED.</p>
+                <p class="reveal-line signal-body" data-delay="900">We'll find them.</p>
+                <div class="signal-cta-group reveal-cta">
+                    <button class="signal-btn signal-btn-primary" id="cta-nomination-confirm" type="button">BACK TO THE SIGNAL</button>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Partnership Section -->
-    <section class="partnership-promo">
-        <div class="container">
-            <h2>TU ES UN CLUB ?</h2>
-            <p>Clubs de football, académies et centres sportifs peuvent s'associer à Panna League pour apporter ce nouveau format à leurs joueurs.</p>
-            <a href="/club.html" class="btn btn-primary btn-lg">DÉCOUVRIR LE PARTENARIAT</a>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="contact-section" id="contact">
-        <div class="container">
-            <h2>NOUS CONTACTER</h2>
-            <p>Des questions ? Envie de devenir partenaire ? Prêt à jouer ?</p>
-            <div class="contact-links">
-                <a href="mailto:pannaleague@mycountryisgoodat.com" class="contact-link">
-                    <span class="contact-icon">✉️</span>
-                    <span>pannaleague@mycountryisgoodat.com</span>
-                </a>
-                <a href="/club.html" class="contact-link">
-                    <span class="contact-icon">🤝</span>
-                    <span>Partenariats Clubs</span>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>PANNA LEAGUE</h4>
-                    <p>Lausanne, Suisse</p>
-                    <p>Championnat de Football 1v1</p>
+        <!-- ============ SCREEN 3 — WHAT IS PANNA ============ -->
+        <section class="signal-screen" id="screen-what-is-panna" data-tap-advance="cta-what-is-panna">
+            <div class="signal-inner">
+                <p class="reveal-line signal-headline" data-delay="150">1 VS 1.</p>
+                <div class="signal-video-wrap reveal-line" data-delay="700">
+                    <video
+                        class="signal-video"
+                        id="signalVideo"
+                        muted
+                        loop
+                        playsinline
+                        preload="none"
+                        poster="/signal/assets/video-poster.jpg"
+                    >
+                        <!-- Replace source below with the real panna clip. Path is set in signal-config.js (VIDEO_PATH). -->
+                        <source id="signalVideoSource" src="" type="video/mp4">
+                    </video>
+                    <button class="signal-video-play" id="signalVideoPlay" type="button" aria-label="Play video">▶</button>
                 </div>
-                <div class="footer-section">
-                    <h4>NAVIGUER</h4>
-                    <ul>
-                        <li><a href="#about">Concept</a></li>
-                        <li><a href="#register">S'inscrire</a></li>
-                        <li><a href="/club.html">Clubs & Lieux</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>CONTACT</h4>
-                    <ul>
-                        <li><a href="mailto:pannaleague@mycountryisgoodat.com">Nous écrire</a></li>
-                        <li><a href="/privacy.html">Politique de confidentialité</a></li>
-                    </ul>
+                <p class="reveal-line signal-body-sm" data-delay="1200">No team. No excuses.<br>Just you and your opponent.</p>
+                <p class="reveal-line signal-emphasis-sm" data-delay="1700">CAN YOU GET THROUGH?</p>
+                <div class="signal-cta-group reveal-cta">
+                    <button class="signal-btn signal-btn-primary" id="cta-what-is-panna" type="button">CONTINUE</button>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 Panna League. Tous droits réservés. • <a href="https://panna-league.vercel.app">panna-league.vercel.app</a></p>
-            </div>
-        </div>
-    </footer>
+        </section>
 
-    <script src="/script.js"></script>
+        <!-- ============ SCREEN 4 — THE ROAD ============ -->
+        <section class="signal-screen" id="screen-road" data-tap-advance="cta-road">
+            <div class="signal-inner">
+                <p class="reveal-line signal-headline-sm" data-delay="150">THE ROAD TO THE<br>FIRST CHAMPION</p>
+                <div class="signal-bracket reveal-line" data-delay="700" aria-label="Tournament progression: 32 to 16 to 8 to 4 to 2 to 1">
+                    <span class="bracket-num">32</span>
+                    <span class="bracket-arrow">↓</span>
+                    <span class="bracket-num">16</span>
+                    <span class="bracket-arrow">↓</span>
+                    <span class="bracket-num">8</span>
+                    <span class="bracket-arrow">↓</span>
+                    <span class="bracket-num">4</span>
+                    <span class="bracket-arrow">↓</span>
+                    <span class="bracket-num">2</span>
+                    <span class="bracket-arrow">↓</span>
+                    <span class="bracket-num bracket-num-final">1</span>
+                </div>
+                <p class="reveal-line signal-body-sm" data-delay="1400">Everyone starts at zero.<br>One finishes first.</p>
+                <div class="signal-cta-group reveal-cta">
+                    <button class="signal-btn signal-btn-primary" id="cta-road" type="button">CONTINUE</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ SCREEN 5 — LAUSANNE ============ -->
+        <section class="signal-screen signal-screen-lausanne" id="screen-lausanne" data-tap-advance="cta-lausanne">
+            <div class="signal-inner">
+                <p class="reveal-line signal-headline" data-delay="150">LAUSANNE</p>
+                <p class="reveal-line signal-emphasis-sm" data-delay="800">THE FIRST SIGNAL STARTED HERE.</p>
+                <p class="reveal-line signal-body-sm" data-delay="1400">The first Panna League begins in Lausanne.<br>But this is only the beginning.</p>
+                <div class="signal-cta-group reveal-cta">
+                    <button class="signal-btn signal-btn-primary" id="cta-lausanne" type="button">KEEP WATCHING</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ SCREEN 6 — THE FUTURE ============ -->
+        <section class="signal-screen" id="screen-future" data-tap-advance="cta-future">
+            <div class="signal-inner">
+                <p class="reveal-line signal-headline-sm" data-delay="150">THIS IS ONLY<br>THE BEGINNING.</p>
+                <p class="reveal-line signal-body-sm" data-delay="800">Lausanne is where the signal starts.<br>The competition can go further.</p>
+                <p class="reveal-line signal-route" data-delay="1500">LAUSANNE → ? → ? → ?</p>
+                <div class="signal-cta-group reveal-cta">
+                    <button class="signal-btn signal-btn-primary" id="cta-future" type="button">FOLLOW THE SIGNAL</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ SCREEN 7 — FINAL ============ -->
+        <section class="signal-screen signal-screen-final" id="screen-final">
+            <div class="signal-inner">
+                <p class="reveal-line signal-headline" data-delay="150">32 PLAYERS.</p>
+                <p class="reveal-line signal-headline" data-delay="900">1 CHAMPION.</p>
+                <p class="reveal-line signal-emphasis" data-delay="1700">WHO'S NEXT?</p>
+
+                <div class="signal-final-brand reveal-line" data-delay="2400">
+                    <img src="/logo.png" alt="Panna League" class="signal-final-logo">
+                    <p class="signal-final-name">PANNA LEAGUE</p>
+                    <p class="signal-final-tag">LAUSANNE · 2026</p>
+                </div>
+
+                <div class="signal-cta-group reveal-cta signal-cta-stack">
+                    <button class="signal-btn signal-btn-primary signal-btn-large" id="cta-final-become" type="button">BECOME THE FIRST</button>
+                    <button class="signal-btn signal-btn-ghost" id="cta-final-follow" type="button">FOLLOW THE SIGNAL</button>
+                </div>
+
+                <div class="signal-social reveal-cta" id="signalSocial" aria-label="Follow Panna League"></div>
+
+                <button class="signal-btn signal-btn-text signal-send-signal reveal-cta" id="ctaSendSignal" type="button">SEND THE SIGNAL</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Share sheet (native share / fallback menu) -->
+    <div class="signal-share-sheet" id="shareSheet" role="dialog" aria-modal="true" aria-label="Send the signal" hidden>
+        <div class="signal-share-card">
+            <p class="signal-share-title">SEND THE SIGNAL</p>
+            <button class="signal-share-option" data-share="whatsapp" type="button">WhatsApp</button>
+            <button class="signal-share-option" data-share="facebook" type="button">Facebook</button>
+            <button class="signal-share-option" data-share="copy" type="button">Copy link</button>
+            <button class="signal-btn signal-btn-text" id="shareSheetClose" type="button">Close</button>
+        </div>
+    </div>
+
+    <script src="/signal/signal-config.js"></script>
+    <script src="/signal/signal.js"></script>
 </body>
 </html>

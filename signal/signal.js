@@ -314,18 +314,22 @@
     // ------------------------------------------------------------
     // 8. Forms
     // ------------------------------------------------------------
-    function mirrorPlayerApplicationToCrm(formEl) {
+    function mirrorPlayerApplicationToCrm(formEl, sourcePrefix) {
         const cfg = window.SIGNAL_CONFIG;
+        // Applications create a player from their own answers; nominations
+        // create one from a friend's answers about someone else — both are
+        // Player rows, so both mirror to the same CRM endpoint, just with a
+        // different crm_source so it's clear in the CRM which one it was.
         const endpoint = cfg && cfg.CRM_PLAYER_ENDPOINT;
         if (!endpoint) return;
         const data = new FormData(formEl);
-        data.set('crm_source', 'signal:' + SOURCE);
+        data.set('crm_source', sourcePrefix + ':' + SOURCE);
         fetch(endpoint, { method: 'POST', body: data, headers: { Accept: 'application/json' } }).catch((err) => {
-            console.warn('[signal] CRM mirror failed (application still succeeded via Formspree):', err);
+            console.warn('[signal] CRM mirror failed (still succeeded via Formspree):', err);
         });
     }
 
-    function wireForm(formEl, endpointKey, confirmScreenId, submitEventKey, mirrorToCrm) {
+    function wireForm(formEl, endpointKey, confirmScreenId, submitEventKey, mirrorSourcePrefix) {
         formEl.addEventListener('submit', async (e) => {
             e.preventDefault();
             const cfg = window.SIGNAL_CONFIG;
@@ -355,7 +359,7 @@
 
                 if (response.ok) {
                     track(submitEventKey);
-                    if (mirrorToCrm) mirrorPlayerApplicationToCrm(formEl);
+                    if (mirrorSourcePrefix) mirrorPlayerApplicationToCrm(formEl, mirrorSourcePrefix);
                     goTo(confirmScreenId);
                 } else {
                     showFormError(formEl, 'Something went wrong. Try again.');
@@ -384,8 +388,8 @@
         banner.textContent = message;
     }
 
-    wireForm(document.getElementById('playerForm'), 'player', 'screen-player-confirm', 'applicationSubmit', true);
-    wireForm(document.getElementById('nominationForm'), 'nomination', 'screen-nomination-confirm', 'nominationSubmit', false);
+    wireForm(document.getElementById('playerForm'), 'player', 'screen-player-confirm', 'applicationSubmit', 'signal');
+    wireForm(document.getElementById('nominationForm'), 'nomination', 'screen-nomination-confirm', 'nominationSubmit', 'signal-nomination');
 
     // ------------------------------------------------------------
     // 9. Video — lazy: only set the real src when the user taps play

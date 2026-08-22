@@ -52,11 +52,11 @@ const SIGNAL_CONFIG = {
         nomination: "https://formspree.io/f/xkjwygzo",
     },
 
-    // Best-effort mirror of player applications into the Panna League CRM
-    // (a separate deployment) so real Signal applicants also land as real
-    // players there. Formspree above stays the audited record regardless —
-    // this never blocks or affects the application flow if unreachable.
-    // Nominations aren't mirrored (no player identity to attach them to).
+    // Best-effort mirror of player applications AND nominations into the
+    // Panna League CRM (a separate deployment) — both become real Player
+    // rows there (a nomination's crm_source records who nominated them).
+    // Formspree above stays the audited record regardless — this never
+    // blocks or affects either form's flow if the CRM is unreachable.
     CRM_PLAYER_ENDPOINT: "https://crm-five-snowy-11.vercel.app/api/public/player-signup",
 
 

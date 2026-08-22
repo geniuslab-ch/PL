@@ -194,6 +194,23 @@ function showFormError(form, message) {
 // 3. Partnership Form
 // ========================================
 
+// Best-effort mirror into the Panna League CRM — same pattern as
+// mirrorPlayerSignupToCrm above, just a different endpoint/table.
+const CRM_CLUB_SIGNUP_ENDPOINT = 'https://crm-five-snowy-11.vercel.app/api/public/club-signup';
+
+function mirrorPartnershipToCrm(formData) {
+    const data = new FormData();
+    formData.forEach((value, key) => data.append(key, value));
+    data.set('crm_source', 'site-partnership');
+    fetch(CRM_CLUB_SIGNUP_ENDPOINT, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+    }).catch((error) => {
+        console.warn('CRM mirror failed (partnership request still succeeded via Formspree):', error);
+    });
+}
+
 const partnershipForm = document.getElementById('partnershipForm');
 if (partnershipForm) {
     partnershipForm.addEventListener('submit', async (e) => {
@@ -223,6 +240,7 @@ if (partnershipForm) {
 
             if (response.ok) {
                 console.log('Partnership Request Submitted to Formspree:', data);
+                mirrorPartnershipToCrm(formData);
                 showPartnershipSuccess(partnershipForm);
             } else {
                 console.error('Formspree submission failed:', await response.text());

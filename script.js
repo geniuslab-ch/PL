@@ -4,6 +4,21 @@
    ======================================== */
 
 // ========================================
+// 0. Club referral pre-fill
+// ========================================
+// A club's recruitment poster/QR links here with ?club=<name> (see the
+// CRM's Club Outreach feature) so a player who scans it doesn't have to
+// retype their club — pre-filled, not locked, since they can still
+// correct it if it's wrong.
+document.addEventListener('DOMContentLoaded', () => {
+    const club = new URLSearchParams(window.location.search).get('club');
+    const clubField = document.getElementById('club');
+    if (club && clubField && !clubField.value) {
+        clubField.value = club;
+    }
+});
+
+// ========================================
 // 1. Mobile Navigation Handler
 // ========================================
 

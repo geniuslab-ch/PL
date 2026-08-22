@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const selects = document.querySelectorAll('[data-city-select]');
     if (selects.length === 0) return;
 
-    fetch('https://crm-five-snowy-11.vercel.app/api/public/events')
+    fetch('https://crm-five-snowy-11.vercel.app/api/public/events', { cache: 'no-store' })
         .then((res) => (res.ok ? res.json() : null))
         .then((data) => {
             const events = (data && data.events) || [];
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const isEnglish = document.documentElement.lang === 'en';
 
-    fetch('https://crm-five-snowy-11.vercel.app/api/public/event-info')
+    fetch('https://crm-five-snowy-11.vercel.app/api/public/event-info', { cache: 'no-store' })
         .then((res) => (res.ok ? res.json() : null))
         .then((data) => {
             const event = data && data.event;
@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
               entryTbd: 'À confirmer',
           };
 
-    fetch('https://crm-five-snowy-11.vercel.app/api/public/events')
+    fetch('https://crm-five-snowy-11.vercel.app/api/public/events', { cache: 'no-store' })
         .then((res) => (res.ok ? res.json() : null))
         .then((data) => {
             const events = (data && data.events) || [];

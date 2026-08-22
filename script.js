@@ -21,9 +21,12 @@ document.addEventListener('DOMContentLoaded', () => {
         clubField.value = club;
     }
 
+    if (!club) return;
+
+    const isEnglish = document.documentElement.lang === 'en';
+
     const banner = document.getElementById('referral-banner');
-    if (club && banner) {
-        const isEnglish = document.documentElement.lang === 'en';
+    if (banner) {
         banner.textContent = '';
         const icon = document.createElement('span');
         icon.textContent = '🎓⚽';
@@ -37,6 +40,35 @@ document.addEventListener('DOMContentLoaded', () => {
         banner.appendChild(text);
         banner.hidden = false;
     }
+
+    // A more prominent, header-level personalization: a strip above the
+    // hero naming the club/school by name, so the page visibly feels
+    // addressed to them rather than a generic landing page. Built
+    // entirely in JS (no static markup) since it only ever exists when
+    // ?club= is present.
+    const hero = document.querySelector('.hero');
+    if (hero && hero.parentNode) {
+        const strip = document.createElement('div');
+        strip.className = 'referral-strip';
+
+        const inner = document.createElement('p');
+        inner.className = 'referral-strip-text';
+        const strong = document.createElement('strong');
+        strong.textContent = club;
+        if (isEnglish) {
+            inner.appendChild(document.createTextNode('You\'re here via '));
+            inner.appendChild(strong);
+            inner.appendChild(document.createTextNode(' — this page is for you.'));
+        } else {
+            inner.appendChild(document.createTextNode('Tu es ici via '));
+            inner.appendChild(strong);
+            inner.appendChild(document.createTextNode(' — cette page t\'est destinée.'));
+        }
+        strip.appendChild(inner);
+        hero.parentNode.insertBefore(strip, hero);
+    }
+
+    document.title = `${club} × ${document.title}`;
 });
 
 // ========================================
@@ -217,7 +249,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             others.forEach((event) => {
                 const card = document.createElement('div');
-                card.className = 'upcoming-event-card';
+                card.className = isDarkCard
+                    ? 'upcoming-event-card upcoming-event-card--dark'
+                    : 'upcoming-event-card upcoming-event-card--light';
 
                 const heading = document.createElement('h3');
                 heading.className = 'upcoming-event-heading';

@@ -819,10 +819,6 @@ a.btn {
     margin-bottom: var(--spacing-xs);
 }
 
-.event-card .upcoming-event-heading {
-    color: var(--color-white);
-}
-
 .upcoming-event-status {
     display: block;
     width: fit-content;
@@ -837,6 +833,22 @@ a.btn {
     background: linear-gradient(135deg, #FFD700 0%, #FFC700 100%);
 }
 
+/* On register.html each generated card lives next to (not inside) the
+   dark .event-card, so it needs its own dark background — otherwise the
+   reused .detail-value/.detail-label (styled white/light-gray for the
+   real .event-card's dark background) render invisibly on the page's
+   light background. */
+.upcoming-event-card--dark {
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+    padding: var(--spacing-xl);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.upcoming-event-card--dark .upcoming-event-heading {
+    color: var(--color-white);
+}
+
 /* ========================================
    9. BENEFIT CARDS
    ======================================== */
@@ -845,6 +857,12 @@ a.btn {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: var(--spacing-lg);
+}
+
+@media (min-width: 769px) {
+    .benefits-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
 }
 
 .benefit-card {
@@ -1185,6 +1203,27 @@ a.btn {
 
 .referral-banner strong {
     color: var(--color-accent-dim);
+}
+
+/* Referral strip — a prominent, header-level personalization above the
+   hero, built entirely in JS (see script.js, section 0) only when a real
+   ?club= link was used. Never present otherwise. */
+.referral-strip {
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+    border-bottom: 1px solid rgba(255, 215, 0, 0.35);
+    padding: var(--spacing-sm) var(--spacing-md);
+}
+
+.referral-strip-text {
+    text-align: center;
+    color: var(--color-white);
+    font-size: 0.9rem;
+    letter-spacing: 0.3px;
+    margin: 0;
+}
+
+.referral-strip-text strong {
+    color: var(--color-accent);
 }
 
 @media (max-width: 768px) {

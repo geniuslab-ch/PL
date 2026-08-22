@@ -750,8 +750,8 @@ a.btn {
 
 .event-details {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: var(--spacing-lg);
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: var(--spacing-md);
     margin-bottom: var(--spacing-xl);
 }
 
@@ -1980,10 +1980,10 @@ a.btn {
 
 .event-info {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
     gap: var(--spacing-md);
     margin-bottom: var(--spacing-2xl);
-    max-width: 800px;
+    max-width: 960px;
     margin-left: auto;
     margin-right: auto;
 }

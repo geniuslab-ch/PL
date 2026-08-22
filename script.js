@@ -19,6 +19,40 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ========================================
+// 0a. Real cities on the player/club signup forms
+// ========================================
+// Each city <select data-city-select> ships with just "Lausanne" as a
+// working default (real, and functions with no JS/network). Any other
+// real city from the CRM — including ones still in internal PRE_LAUNCH
+// planning, since registering interest is exactly what this form is
+// for — is added as an extra option, never a fabricated one.
+document.addEventListener('DOMContentLoaded', () => {
+    const selects = document.querySelectorAll('[data-city-select]');
+    if (selects.length === 0) return;
+
+    fetch('https://crm-five-snowy-11.vercel.app/api/public/events')
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => {
+            const events = (data && data.events) || [];
+            const cities = [...new Set(events.map((e) => e.city).filter(Boolean))];
+
+            selects.forEach((select) => {
+                const existing = new Set(Array.from(select.options).map((o) => o.value));
+                cities.forEach((city) => {
+                    if (existing.has(city)) return;
+                    const option = document.createElement('option');
+                    option.value = city;
+                    option.textContent = city;
+                    select.appendChild(option);
+                });
+            });
+        })
+        .catch(() => {
+            // CRM unreachable — the static "Lausanne" option still works.
+        });
+});
+
+// ========================================
 // 0b. Live event info from the CRM
 // ========================================
 // Formats a CRM ISO date ("2026-05-16") into a localized display date, or

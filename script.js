@@ -52,6 +52,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const event = data && data.event;
             if (!event) return;
 
+            const editionEl = document.querySelector('[data-event-field="edition"]');
+            if (editionEl && event.edition) {
+                editionEl.textContent = `N°${event.edition}`;
+            }
+
             const locationEl = document.querySelector('[data-event-field="location"]');
             if (locationEl && event.city) {
                 locationEl.textContent = event.venue ? `${event.venue}, ${event.city}` : event.city;
@@ -122,6 +127,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const copy = isEnglish
         ? {
+              edition: 'EDITION N°',
+              editionTbd: 'Coming soon',
               format: 'FORMAT',
               formatValue: isDarkCard ? '1v1' : '1v1 Tournament',
               location: isDarkCard ? 'LOCATION' : 'LOCATION',
@@ -133,6 +140,8 @@ document.addEventListener('DOMContentLoaded', () => {
               entryTbd: 'To be confirmed',
           }
         : {
+              edition: 'EDITION N°',
+              editionTbd: 'À venir',
               format: 'FORMAT',
               formatValue: isDarkCard ? '1v1' : 'Tournoi 1v1',
               location: 'LIEU',
@@ -169,6 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 grid.className = isDarkCard ? 'event-details' : 'event-info';
 
                 const fields = [
+                    [copy.edition, event.edition ? `N°${event.edition}` : copy.editionTbd],
                     [copy.format, copy.formatValue],
                     [copy.location, event.venue ? `${event.venue}, ${event.city}` : event.city],
                     [copy.date, event.date ? formatEventDate(event.date, isEnglish) : copy.dateTbd],

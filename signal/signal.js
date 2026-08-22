@@ -314,7 +314,18 @@
     // ------------------------------------------------------------
     // 8. Forms
     // ------------------------------------------------------------
-    function wireForm(formEl, endpointKey, confirmScreenId, submitEventKey) {
+    function mirrorPlayerApplicationToCrm(formEl) {
+        const cfg = window.SIGNAL_CONFIG;
+        const endpoint = cfg && cfg.CRM_PLAYER_ENDPOINT;
+        if (!endpoint) return;
+        const data = new FormData(formEl);
+        data.set('crm_source', 'signal:' + SOURCE);
+        fetch(endpoint, { method: 'POST', body: data, headers: { Accept: 'application/json' } }).catch((err) => {
+            console.warn('[signal] CRM mirror failed (application still succeeded via Formspree):', err);
+        });
+    }
+
+    function wireForm(formEl, endpointKey, confirmScreenId, submitEventKey, mirrorToCrm) {
         formEl.addEventListener('submit', async (e) => {
             e.preventDefault();
             const cfg = window.SIGNAL_CONFIG;
@@ -344,6 +355,7 @@
 
                 if (response.ok) {
                     track(submitEventKey);
+                    if (mirrorToCrm) mirrorPlayerApplicationToCrm(formEl);
                     goTo(confirmScreenId);
                 } else {
                     showFormError(formEl, 'Something went wrong. Try again.');
@@ -372,8 +384,8 @@
         banner.textContent = message;
     }
 
-    wireForm(document.getElementById('playerForm'), 'player', 'screen-player-confirm', 'applicationSubmit');
-    wireForm(document.getElementById('nominationForm'), 'nomination', 'screen-nomination-confirm', 'nominationSubmit');
+    wireForm(document.getElementById('playerForm'), 'player', 'screen-player-confirm', 'applicationSubmit', true);
+    wireForm(document.getElementById('nominationForm'), 'nomination', 'screen-nomination-confirm', 'nominationSubmit', false);
 
     // ------------------------------------------------------------
     // 9. Video — lazy: only set the real src when the user taps play

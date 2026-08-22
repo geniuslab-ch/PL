@@ -47,6 +47,25 @@ document.addEventListener('DOMContentLoaded', () => {
 // 2. Player Registration Form
 // ========================================
 
+// Best-effort mirror into the Panna League CRM (a separate deployment)
+// so real signups also land as real players there — Formspree above
+// stays the audited record either way, this never blocks or affects
+// the registration flow if the CRM is slow or unreachable.
+const CRM_PLAYER_SIGNUP_ENDPOINT = 'https://crm-five-snowy-11.vercel.app/api/public/player-signup';
+
+function mirrorPlayerSignupToCrm(formData) {
+    const data = new FormData();
+    formData.forEach((value, key) => data.append(key, value));
+    data.set('crm_source', 'site-register');
+    fetch(CRM_PLAYER_SIGNUP_ENDPOINT, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+    }).catch((error) => {
+        console.warn('CRM mirror failed (registration still succeeded via Formspree):', error);
+    });
+}
+
 const playerForm = document.getElementById('playerForm');
 if (playerForm) {
     playerForm.addEventListener('submit', async (e) => {
@@ -76,6 +95,7 @@ if (playerForm) {
 
             if (response.ok) {
                 console.log('Player Registration Submitted to Formspree:', data);
+                mirrorPlayerSignupToCrm(formData);
                 showPlayerSuccess(playerForm);
             } else {
                 console.error('Formspree submission failed:', await response.text());

@@ -786,12 +786,12 @@ a.btn {
 }
 
 /* Upcoming Cities — populated live from the CRM, hidden until there's a
-   real second event to show (no placeholder cards). Default styling
-   matches the light .info-item cards (used on index.html's light
-   registration-cta section); the .event-card override below re-themes it
-   for register.html's dark event card. */
+   real announced second event to show (no placeholder cards). Each city
+   reuses .event-info/.info-item (light pages) or .event-details/
+   .event-detail-item (register.html's dark card) — the exact same field
+   layout as the one featured event above — just generated per event. */
 .upcoming-events {
-    margin-top: var(--spacing-xl);
+    margin-top: var(--spacing-2xl);
 }
 
 .upcoming-events-title {
@@ -800,42 +800,33 @@ a.btn {
     letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--color-light-gray);
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
 }
 
 .upcoming-events-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
 }
 
-.upcoming-event-item {
-    padding: var(--spacing-md);
-    border: 1px solid rgba(255, 215, 0, 0.15);
-    border-radius: var(--radius-md);
+.upcoming-event-heading {
     text-align: center;
-    background: var(--color-white);
-}
-
-.upcoming-event-city {
-    display: block;
     font-family: var(--font-display);
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     letter-spacing: 1px;
-    color: var(--color-black);
     text-transform: uppercase;
+    color: var(--color-black);
+    margin-bottom: var(--spacing-xs);
 }
 
-.upcoming-event-meta {
-    display: block;
-    margin-top: var(--spacing-xs);
-    font-size: 0.85rem;
-    color: var(--color-light-gray);
+.event-card .upcoming-event-heading {
+    color: var(--color-white);
 }
 
 .upcoming-event-status {
-    display: inline-block;
-    margin-top: var(--spacing-xs);
+    display: block;
+    width: fit-content;
+    margin: 0 auto var(--spacing-md);
     padding: 3px 12px;
     border-radius: 999px;
     font-size: 0.65rem;
@@ -844,16 +835,6 @@ a.btn {
     text-transform: uppercase;
     color: var(--color-black);
     background: linear-gradient(135deg, #FFD700 0%, #FFC700 100%);
-}
-
-/* Dark-card context — register.html / en/register.html's .event-card */
-.event-card .upcoming-event-item {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid var(--color-dark-gray);
-}
-
-.event-card .upcoming-event-city {
-    color: var(--color-white);
 }
 
 /* ========================================

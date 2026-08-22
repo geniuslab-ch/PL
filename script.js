@@ -82,13 +82,26 @@ document.addEventListener('DOMContentLoaded', () => {
 // event. Every other real event (e.g. a second city added in the Event
 // Control Center) shows up here instead, in a plain list — hidden
 // entirely if there are none, so no empty section or placeholder city
-// ever appears.
+// ever appears. Each city gets the exact same FORMAT/LOCATION/DATE/PLACES
+// card layout as the featured event above it — built from the same
+// .event-info/.info-item (light pages) or .event-details/.event-detail-item
+// (register.html's dark card) markup, just generated per event instead of
+// hardcoded once.
+//
+// Visibility is tied to the CRM's real event status: PRE_LAUNCH means
+// still-being-planned-internally, so those events stay CRM-only. Setting
+// an event to ANNOUNCED (or later — REGISTRATION_OPEN/LIVE/COMPLETED) is
+// what makes it appear here. The one featured event above (isPrimary) is
+// the exception — it always shows, with honest "TBD" copy, since the
+// whole point of this page is to register interest for it.
 document.addEventListener('DOMContentLoaded', () => {
     const section = document.getElementById('upcoming-events');
     const list = document.getElementById('upcoming-events-list');
     if (!section || !list) return;
 
     const isEnglish = document.documentElement.lang === 'en';
+    const isDarkCard = !!document.querySelector('.event-card');
+
     const STATUS_LABELS = {
         fr: {
             PRE_LAUNCH: 'Bientôt',
@@ -105,36 +118,85 @@ document.addEventListener('DOMContentLoaded', () => {
             COMPLETED: 'Completed',
         },
     };
-    const labels = STATUS_LABELS[isEnglish ? 'en' : 'fr'];
-    const dateTbd = isEnglish ? 'Date TBD' : 'Date à confirmer';
+    const statusLabels = STATUS_LABELS[isEnglish ? 'en' : 'fr'];
+
+    const copy = isEnglish
+        ? {
+              format: 'FORMAT',
+              formatValue: isDarkCard ? '1v1' : '1v1 Tournament',
+              location: isDarkCard ? 'LOCATION' : 'LOCATION',
+              date: 'DATE',
+              dateTbd: 'Coming soon',
+              players: isDarkCard ? 'PLAYERS' : 'PLACES',
+              playersSuffix: 'spots',
+              entry: 'ENTRY',
+              entryTbd: 'To be confirmed',
+          }
+        : {
+              format: 'FORMAT',
+              formatValue: isDarkCard ? '1v1' : 'Tournoi 1v1',
+              location: 'LIEU',
+              date: 'DATE',
+              dateTbd: 'Bientôt communiquée',
+              players: isDarkCard ? 'JOUEURS' : 'PLACES',
+              playersSuffix: 'places',
+              entry: 'TARIF',
+              entryTbd: 'À confirmer',
+          };
 
     fetch('https://crm-five-snowy-11.vercel.app/api/public/events')
         .then((res) => (res.ok ? res.json() : null))
         .then((data) => {
             const events = (data && data.events) || [];
-            const others = events.filter((e) => !e.isPrimary);
+            const others = events.filter((e) => !e.isPrimary && e.status !== 'PRE_LAUNCH');
             if (others.length === 0) return;
 
             others.forEach((event) => {
-                const item = document.createElement('div');
-                item.className = 'upcoming-event-item';
+                const card = document.createElement('div');
+                card.className = 'upcoming-event-card';
 
-                const city = document.createElement('span');
-                city.className = 'upcoming-event-city';
-                city.textContent = event.venue ? `${event.venue}, ${event.city}` : event.city;
-                item.appendChild(city);
-
-                const meta = document.createElement('span');
-                meta.className = 'upcoming-event-meta';
-                meta.textContent = event.date ? formatEventDate(event.date, isEnglish) : dateTbd;
-                item.appendChild(meta);
+                const heading = document.createElement('h3');
+                heading.className = 'upcoming-event-heading';
+                heading.textContent = event.city;
+                card.appendChild(heading);
 
                 const status = document.createElement('span');
                 status.className = 'upcoming-event-status';
-                status.textContent = labels[event.status] || event.status;
-                item.appendChild(status);
+                status.textContent = statusLabels[event.status] || event.status;
+                card.appendChild(status);
 
-                list.appendChild(item);
+                const grid = document.createElement('div');
+                grid.className = isDarkCard ? 'event-details' : 'event-info';
+
+                const fields = [
+                    [copy.format, copy.formatValue],
+                    [copy.location, event.venue ? `${event.venue}, ${event.city}` : event.city],
+                    [copy.date, event.date ? formatEventDate(event.date, isEnglish) : copy.dateTbd],
+                    [copy.players, event.playerTarget ? `${event.playerTarget} ${copy.playersSuffix}` : copy.dateTbd],
+                ];
+                if (isDarkCard) {
+                    fields.push([copy.entry, copy.entryTbd]);
+                }
+
+                fields.forEach(([label, value]) => {
+                    const item = document.createElement('div');
+                    item.className = isDarkCard ? 'event-detail-item' : 'info-item';
+
+                    const labelEl = document.createElement('span');
+                    labelEl.className = isDarkCard ? 'detail-label' : 'info-label';
+                    labelEl.textContent = label;
+                    item.appendChild(labelEl);
+
+                    const valueEl = document.createElement('span');
+                    valueEl.className = isDarkCard ? 'detail-value' : 'info-value';
+                    valueEl.textContent = value;
+                    item.appendChild(valueEl);
+
+                    grid.appendChild(item);
+                });
+
+                card.appendChild(grid);
+                list.appendChild(card);
             });
 
             section.style.display = '';

@@ -17,7 +17,7 @@ const SIGNAL_CONFIG = {
     // reads from here automatically. An English mirror exists at
     // /en/signal — the language switcher on both pages links between
     // them automatically and preserves any ?source= tag.
-    SIGNAL_URL: "https://panna-league.vercel.app/signal",
+    SIGNAL_URL: "https://pl-three-pi.vercel.app/signal",
 
 
     // ----------------------------------------------------------

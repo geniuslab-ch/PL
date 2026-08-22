@@ -1166,6 +1166,27 @@ a.btn {
     margin-bottom: var(--spacing-xl);
 }
 
+/* Referral banner — only shown when a real ?club= link was used, filled
+   in by script.js. Never rendered empty (element ships [hidden]). */
+.referral-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    text-align: center;
+    background: var(--color-accent-subtle);
+    border: 1px solid rgba(255, 215, 0, 0.35);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-md) var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+    font-weight: 600;
+    color: var(--color-black);
+}
+
+.referral-banner strong {
+    color: var(--color-accent-dim);
+}
+
 @media (max-width: 768px) {
     .form-row {
         grid-template-columns: 1fr;

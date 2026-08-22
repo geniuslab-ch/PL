@@ -6,15 +6,36 @@
 // ========================================
 // 0. Club referral pre-fill
 // ========================================
-// A club's recruitment poster/QR links here with ?club=<name> (see the
-// CRM's Club Outreach feature) so a player who scans it doesn't have to
-// retype their club — pre-filled, not locked, since they can still
-// correct it if it's wrong.
+// A club's or school's recruitment poster/QR links here with ?club=<name>
+// (see the CRM's Club/School Outreach features) so a player who scans it
+// doesn't have to retype it — pre-filled, not locked, since they can
+// still correct it if it's wrong. Also personalizes the page with a
+// banner naming who they were referred by, so the link visibly means
+// something instead of landing on a generic form. The banner element
+// ships [hidden] in the HTML and is only revealed here, so a direct visit
+// with no ?club= param shows nothing extra.
 document.addEventListener('DOMContentLoaded', () => {
     const club = new URLSearchParams(window.location.search).get('club');
     const clubField = document.getElementById('club');
     if (club && clubField && !clubField.value) {
         clubField.value = club;
+    }
+
+    const banner = document.getElementById('referral-banner');
+    if (club && banner) {
+        const isEnglish = document.documentElement.lang === 'en';
+        banner.textContent = '';
+        const icon = document.createElement('span');
+        icon.textContent = '🎓⚽';
+        icon.setAttribute('aria-hidden', 'true');
+        const text = document.createElement('span');
+        const strong = document.createElement('strong');
+        strong.textContent = club;
+        text.appendChild(document.createTextNode(isEnglish ? 'Registering via ' : 'Inscription via '));
+        text.appendChild(strong);
+        banner.appendChild(icon);
+        banner.appendChild(text);
+        banner.hidden = false;
     }
 });
 

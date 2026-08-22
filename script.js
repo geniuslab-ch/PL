@@ -21,6 +21,19 @@ document.addEventListener('DOMContentLoaded', () => {
 // ========================================
 // 0b. Live event info from the CRM
 // ========================================
+// Formats a CRM ISO date ("2026-05-16") into a localized display date, or
+// returns the raw string if it doesn't parse. Shared by the primary-event
+// sync below and the upcoming-cities list.
+function formatEventDate(isoDate, isEnglish) {
+    const parsed = new Date(`${isoDate}T00:00:00`);
+    if (isNaN(parsed.getTime())) return isoDate;
+    return parsed.toLocaleDateString(isEnglish ? 'en-GB' : 'fr-CH', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+    });
+}
+
 // Pulls the real primary event (name, city, venue, date, player target)
 // from the CRM's public API and swaps it into any [data-event-field]
 // element on the page. Only overwrites a field when the CRM actually has
@@ -46,14 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const dateEl = document.querySelector('[data-event-field="date"]');
             if (dateEl && event.date) {
-                const parsed = new Date(`${event.date}T00:00:00`);
-                dateEl.textContent = isNaN(parsed.getTime())
-                    ? event.date
-                    : parsed.toLocaleDateString(isEnglish ? 'en-GB' : 'fr-CH', {
-                          day: 'numeric',
-                          month: 'long',
-                          year: 'numeric',
-                      });
+                dateEl.textContent = formatEventDate(event.date, isEnglish);
             }
 
             const playersEl = document.querySelector('[data-event-field="players"]');
@@ -66,6 +72,76 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(() => {
             // CRM unreachable or no primary event yet — leave the existing
             // placeholder copy in the HTML untouched.
+        });
+});
+
+// ========================================
+// 0c. Upcoming cities list from the CRM
+// ========================================
+// The event-info card above only ever shows the CRM's one "primary"
+// event. Every other real event (e.g. a second city added in the Event
+// Control Center) shows up here instead, in a plain list — hidden
+// entirely if there are none, so no empty section or placeholder city
+// ever appears.
+document.addEventListener('DOMContentLoaded', () => {
+    const section = document.getElementById('upcoming-events');
+    const list = document.getElementById('upcoming-events-list');
+    if (!section || !list) return;
+
+    const isEnglish = document.documentElement.lang === 'en';
+    const STATUS_LABELS = {
+        fr: {
+            PRE_LAUNCH: 'Bientôt',
+            ANNOUNCED: 'Annoncé',
+            REGISTRATION_OPEN: 'Inscriptions ouvertes',
+            LIVE: 'En cours',
+            COMPLETED: 'Terminé',
+        },
+        en: {
+            PRE_LAUNCH: 'Coming soon',
+            ANNOUNCED: 'Announced',
+            REGISTRATION_OPEN: 'Registration open',
+            LIVE: 'Live',
+            COMPLETED: 'Completed',
+        },
+    };
+    const labels = STATUS_LABELS[isEnglish ? 'en' : 'fr'];
+    const dateTbd = isEnglish ? 'Date TBD' : 'Date à confirmer';
+
+    fetch('https://crm-five-snowy-11.vercel.app/api/public/events')
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => {
+            const events = (data && data.events) || [];
+            const others = events.filter((e) => !e.isPrimary);
+            if (others.length === 0) return;
+
+            others.forEach((event) => {
+                const item = document.createElement('div');
+                item.className = 'upcoming-event-item';
+
+                const city = document.createElement('span');
+                city.className = 'upcoming-event-city';
+                city.textContent = event.venue ? `${event.venue}, ${event.city}` : event.city;
+                item.appendChild(city);
+
+                const meta = document.createElement('span');
+                meta.className = 'upcoming-event-meta';
+                meta.textContent = event.date ? formatEventDate(event.date, isEnglish) : dateTbd;
+                item.appendChild(meta);
+
+                const status = document.createElement('span');
+                status.className = 'upcoming-event-status';
+                status.textContent = labels[event.status] || event.status;
+                item.appendChild(status);
+
+                list.appendChild(item);
+            });
+
+            section.style.display = '';
+        })
+        .catch(() => {
+            // CRM unreachable — keep the section hidden rather than show
+            // a broken or empty list.
         });
 });
 

@@ -785,6 +785,63 @@ a.btn {
     line-height: 1.8;
 }
 
+/* Upcoming Cities — populated live from the CRM, hidden until there's a
+   real second event to show (no placeholder cards). */
+.upcoming-events {
+    margin-top: var(--spacing-xl);
+}
+
+.upcoming-events-title {
+    text-align: center;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--color-light-gray);
+    margin-bottom: var(--spacing-md);
+}
+
+.upcoming-events-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.upcoming-event-item {
+    padding: var(--spacing-md);
+    border: 1px solid var(--color-dark-gray);
+    border-radius: var(--radius-md);
+    text-align: center;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.upcoming-event-city {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    color: var(--color-white);
+    text-transform: uppercase;
+}
+
+.upcoming-event-meta {
+    display: block;
+    margin-top: var(--spacing-xs);
+    font-size: 0.85rem;
+    color: var(--color-light-gray);
+}
+
+.upcoming-event-status {
+    display: inline-block;
+    margin-top: var(--spacing-xs);
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    border: 1px solid var(--color-accent-dim);
+}
+
 /* ========================================
    9. BENEFIT CARDS
    ======================================== */

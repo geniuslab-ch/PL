@@ -786,7 +786,10 @@ a.btn {
 }
 
 /* Upcoming Cities — populated live from the CRM, hidden until there's a
-   real second event to show (no placeholder cards). */
+   real second event to show (no placeholder cards). Default styling
+   matches the light .info-item cards (used on index.html's light
+   registration-cta section); the .event-card override below re-themes it
+   for register.html's dark event card. */
 .upcoming-events {
     margin-top: var(--spacing-xl);
 }
@@ -808,10 +811,10 @@ a.btn {
 
 .upcoming-event-item {
     padding: var(--spacing-md);
-    border: 1px solid var(--color-dark-gray);
+    border: 1px solid rgba(255, 215, 0, 0.15);
     border-radius: var(--radius-md);
     text-align: center;
-    background: rgba(255, 255, 255, 0.02);
+    background: var(--color-white);
 }
 
 .upcoming-event-city {
@@ -819,7 +822,7 @@ a.btn {
     font-family: var(--font-display);
     font-size: 1.1rem;
     letter-spacing: 1px;
-    color: var(--color-white);
+    color: var(--color-black);
     text-transform: uppercase;
 }
 
@@ -833,13 +836,24 @@ a.btn {
 .upcoming-event-status {
     display: inline-block;
     margin-top: var(--spacing-xs);
-    padding: 2px 10px;
+    padding: 3px 12px;
     border-radius: 999px;
     font-size: 0.65rem;
+    font-weight: 700;
     letter-spacing: 1px;
     text-transform: uppercase;
-    color: var(--color-accent);
-    border: 1px solid var(--color-accent-dim);
+    color: var(--color-black);
+    background: linear-gradient(135deg, #FFD700 0%, #FFC700 100%);
+}
+
+/* Dark-card context — register.html / en/register.html's .event-card */
+.event-card .upcoming-event-item {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--color-dark-gray);
+}
+
+.event-card .upcoming-event-city {
+    color: var(--color-white);
 }
 
 /* ========================================

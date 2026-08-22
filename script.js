@@ -19,6 +19,57 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ========================================
+// 0b. Live event info from the CRM
+// ========================================
+// Pulls the real primary event (name, city, venue, date, player target)
+// from the CRM's public API and swaps it into any [data-event-field]
+// element on the page. Only overwrites a field when the CRM actually has
+// a real value for it — a field the CRM doesn't know yet (e.g. no date
+// set) keeps its existing "coming soon" placeholder rather than showing
+// something blank or fake.
+document.addEventListener('DOMContentLoaded', () => {
+    const targets = document.querySelectorAll('[data-event-field]');
+    if (targets.length === 0) return;
+
+    const isEnglish = document.documentElement.lang === 'en';
+
+    fetch('https://crm-five-snowy-11.vercel.app/api/public/event-info')
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => {
+            const event = data && data.event;
+            if (!event) return;
+
+            const locationEl = document.querySelector('[data-event-field="location"]');
+            if (locationEl && event.city) {
+                locationEl.textContent = event.venue ? `${event.venue}, ${event.city}` : event.city;
+            }
+
+            const dateEl = document.querySelector('[data-event-field="date"]');
+            if (dateEl && event.date) {
+                const parsed = new Date(`${event.date}T00:00:00`);
+                dateEl.textContent = isNaN(parsed.getTime())
+                    ? event.date
+                    : parsed.toLocaleDateString(isEnglish ? 'en-GB' : 'fr-CH', {
+                          day: 'numeric',
+                          month: 'long',
+                          year: 'numeric',
+                      });
+            }
+
+            const playersEl = document.querySelector('[data-event-field="players"]');
+            if (playersEl && event.playerTarget) {
+                playersEl.textContent = isEnglish
+                    ? `${event.playerTarget} spots`
+                    : `${event.playerTarget} places`;
+            }
+        })
+        .catch(() => {
+            // CRM unreachable or no primary event yet — leave the existing
+            // placeholder copy in the HTML untouched.
+        });
+});
+
+// ========================================
 // 1. Mobile Navigation Handler
 // ========================================
 

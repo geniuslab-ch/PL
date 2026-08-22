@@ -758,7 +758,8 @@ a.btn {
 .event-detail-item {
     text-align: center;
     padding: var(--spacing-md);
-    border: 1px solid var(--color-dark-gray);
+    background: rgba(255, 215, 0, 0.06);
+    border: 1px solid rgba(255, 215, 0, 0.35);
     border-radius: var(--radius-md);
 }
 

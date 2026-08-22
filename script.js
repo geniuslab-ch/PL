@@ -15,7 +15,9 @@
 // ships [hidden] in the HTML and is only revealed here, so a direct visit
 // with no ?club= param shows nothing extra.
 document.addEventListener('DOMContentLoaded', () => {
-    const club = new URLSearchParams(window.location.search).get('club');
+    const params = new URLSearchParams(window.location.search);
+    const club = params.get('club');
+    const isSchool = params.get('type') === 'school';
     const clubField = document.getElementById('club');
     if (club && clubField && !clubField.value) {
         clubField.value = club;
@@ -24,6 +26,22 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!club) return;
 
     const isEnglish = document.documentElement.lang === 'en';
+
+    // A school referral link (?type=school, set by the CRM's School
+    // Outreach feature) shouldn't ask a school visitor to name their
+    // "football club" — swap the field for institution-appropriate
+    // wording instead of just leaving a mislabeled club field.
+    if (isSchool) {
+        const clubLabel = document.querySelector('label[for="club"]');
+        if (clubLabel) {
+            clubLabel.textContent = isEnglish ? 'School (optional)' : 'Établissement (optionnel)';
+        }
+        if (clubField) {
+            clubField.placeholder = isEnglish
+                ? 'e.g., Collège Champittet, etc.'
+                : 'ex. Collège Champittet, etc.';
+        }
+    }
 
     const banner = document.getElementById('referral-banner');
     if (banner) {
